@@ -1,0 +1,3 @@
+Fornecedor: Pesquisa ( inclusão, alteração, exclusão, visualização)
+Contas a pagar: Pesquisa, ( inclusão, alteração, exclusão, visualização) , baixa.
+Relatório: Contas a pagar, Contas vencidas, Contas pagas
