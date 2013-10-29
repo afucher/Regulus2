@@ -9,7 +9,7 @@ $limit = $_REQUEST['rows']; // get how many rows we want to have into the grid
 
 //$totalrows = isset($_REQUEST['totalrows']) ? $_REQUEST['totalrows']: false;
 //if($totalrows) {$limit = $totalrows;}
-
+ 
 	$stmt = $mysql_con->prepare("SELECT COUNT(*) AS count FROM titulos WHERE dat_baix IS NULL");
 	$stmt->execute();
 	$stmt->bind_result($count);

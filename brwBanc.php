@@ -22,8 +22,11 @@ if(login_check($mysql_con) == true) : ?>
 		<link rel="stylesheet" type="text/css" media="screen" href="themes/ui.jqgrid.css">
 		<link rel="stylesheet" type="text/css" media="screen" href="themes/ui.multiselect.css">
 	
-		<script src="js/jquery.min.js" type="text/javascript"></script>
+		<!--<script src="js/jquery.min.js" type="text/javascript"></script>
 		<script src="js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
+		<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>-->
+		<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+		<script src="js/jquery-ui-1.10.3/ui/jquery-ui.js" type="text/javascript"></script>		
 		<script src="js/utils.js" type="text/javascript"></script>
 		<script src="js/jquery.layout.js" type="text/javascript"></script>
 		<script src="js/i18n/grid.locale-en.js" type="text/javascript"></script>
@@ -31,7 +34,8 @@ if(login_check($mysql_con) == true) : ?>
 			$.jgrid.no_legacy_api = true;
 			$.jgrid.useJSON = true;
 		</script>
-		<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
+		<script src="js/jqgrid/jquery.jqGrid.min.js" type="text/javascript"></script>
+		
 		<script src="js/jquery.tablednd.js" type="text/javascript"></script>
 		<script src="js/jquery.contextmenu.js" type="text/javascript"></script>
 		<script src="js/ui.multiselect.js" type="text/javascript"></script>
@@ -61,6 +65,34 @@ if(login_check($mysql_con) == true) : ?>
 				jQuery("#list2").jqGrid('navGrid','#pager2',{edit:false,add:false,del:false});
 			});
 		</script>
+		<script type="text/javascript">
+			function alterar(id){
+				window.location.replace("./cadBanc.php?id=" + id);
+			}
+			function deletar(id){
+				if(confirm("Deseja mesmo deletar o item " + id)){
+					var param;
+					param = {"id":id,"del":true}
+					$.post( "php/bancADO.php", param)
+					.done(function( data ) {
+						location.reload();
+					});
+				}
+			}
+			function getField(field){
+				var myGrid = jQuery("#browse");
+				var colSel = myGrid.jqGrid('getGridParam','selrow');
+				if (colSel==null)
+				{
+					return null;
+				}else{
+					return myGrid.jqGrid('getCell',colSel,field);
+				}
+			}
+			function getID(){
+				return getField('id');
+			}
+		</script>
 	
 	
 </head>
@@ -73,12 +105,37 @@ if(login_check($mysql_con) == true) : ?>
 ?>
 <h2>Fornecedores</h2>
 <div id="brw_container">
+	<input type="button" id="edit" value="Alterar"/>
+	<input type="button" id="del" value="Deletar"/>
 	<table id="browse"/>
 	<div id="pager2">
 </div>
 
 </body>
 </html>
+
+<!-- Ações dos botões-->
+<script>
+	jQuery("#edit").click( function() {
+		var id = getID();
+		if(id==null){
+			alert('Selecione um título...');
+		}else{
+			alterar(id);
+		}
+	});
+
+	jQuery("#del").click( function() {
+		var id = getID();
+		if(id==null){
+			alert('Selecione um título...');
+		}else{
+			deletar(id);
+		}
+	});
+</script>
+
+
 
 <?php else :
    echo 'You are not authorized to access this page, please login. <br/>';

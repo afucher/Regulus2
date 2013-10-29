@@ -39,6 +39,7 @@ if(login_check($mysql_con) == true) : ?>
 					  $("#cod_banc").val(obj_banc.cod_banc);
 					  $("#agencia").val(obj_banc.agencia);
 					  $("#conta").val(obj_banc.conta);
+					  $("#id").val(obj_banc.id);
 					});
 
 	  		}
@@ -68,7 +69,8 @@ if(login_check($mysql_con) == true) : ?>
 			<label for="conta">Conta:<input name="conta" type="text" maxlength="12" id="conta"	placeholder="Conta..." required	/></label>
 		</div>
 	</div>
-		<input type="submit" value="Salvar" onclick="my_submit()">
+		<input type="hidden" name="id" id="id"/>
+		<input type="submit" value="Salvar" onclick="my_submit()"/>
 </div>
 	
 </form>
