@@ -3,6 +3,11 @@ input.invalid{
 	border-color:#FF0000 !important;
 }
 
+input[readonly="readonly"]
+{
+    opacity:1; filter:alpha(opacity=100);
+}
+
 #brw_container{padding-top:50px;margin: 0 auto; width: 700px; min-width: 650px;}
 
 html, body {

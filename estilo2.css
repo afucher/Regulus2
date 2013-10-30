@@ -2,6 +2,8 @@ input.invalid{
 	border-color:#FF0000 !important;
 }
 
+input[readonly]{background-color:#F0F0F0 !important;color:#303030 !important;}
+
 #brw_container{padding-top:50px;margin: 0 auto; width: 700px; min-width: 650px;}
 
 html, body {
