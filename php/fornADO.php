@@ -57,7 +57,7 @@ if(insertForn($cgc_real,$name,$end,$ie,$bairro,$cidade,$estado,$municipio,$cep_r
 
 function insertForn($cgc,$name,$end,$ie,$bairro,$cidade,$estado,$municipio,$cep,$tipo_pessoa,$telefone,$email,$homepage,$contato,$tipo_forn,$mysql_con)
 {
-$query = "INSERT INTO FORNECEDORES (raz_social, endereco, bairro, cidade, estado, municip, cep, telefone, email, homep, contato, cgc, ie, tipo_forn) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+$query = "INSERT INTO fornecedores (raz_social, endereco, bairro, cidade, estado, municip, cep, telefone, email, homep, contato, cgc, ie, tipo_forn) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 if(!$stmt = $mysql_con->prepare($query)){
 	echo "Prepare failed: (" . $mysql_con->errno . ") " . $mysql_con->error;
