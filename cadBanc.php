@@ -28,21 +28,30 @@ if(login_check($mysql_con) == true) : ?>
 		});
 	  $.urlParam = function(name){
  		   var results = new RegExp('[\\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
-    		return results[1] || null;
+ 		   if (results == null){
+ 		   		return null;
+ 		   }else{
+ 		   	return results[1] || null;
+ 		   }
 		}
 		$( document ).ready(function() {
 			var id = decodeURIComponent($.urlParam('id'));
 			var obj_banc;
-	  		if(id != null){
+	  		if(id != "null"){
 	  			$.get( "php/getBanc.php?id=" + id, function( data ) {
 					  obj_banc = jQuery.parseJSON (data );
-					  $("#cod_banc").val(obj_banc.cod_banc);
-					  $("#agencia").val(obj_banc.agencia);
-					  $("#conta").val(obj_banc.conta);
+					  $("#cod_banc").val(obj_banc.cod_banc).prop('readonly', true);
+					  $("#agencia").val(obj_banc.agencia).prop('readonly', true);
+					  $("#conta").val(obj_banc.conta).prop('readonly', true);
+					  $("#desc").val(obj_banc.descricao);
 					  $("#id").val(obj_banc.id);
 					});
 
-	  		}
+	  		}else{
+	  			$("#cod_banc").mask("999",{placeholder:" "})
+	  			$("#agencia").mask("?999999",{placeholder:" "})
+	  			$("#conta").mask("?999999999999",{placeholder:" "})	
+		  	}
 		});
 		
 	</script>
@@ -67,6 +76,7 @@ if(login_check($mysql_con) == true) : ?>
 			<label for="cod_banc">Cod. Bancario:<input name="cod_banc" type="text" maxlength="3" id="cod_banc"	placeholder="Cod. Banc." required	/></label>
 			<label for="agencia">Agencia:<input name="agencia" type="text" maxlength="6" id="agencia"	placeholder="Agencia..." required	/></label>
 			<label for="conta">Conta:<input name="conta" type="text" maxlength="12" id="conta"	placeholder="Conta..." required	/></label>
+			<label for="desc">Descrição:<input name="desc" type="text" maxlength="15" id="desc"	placeholder="Descrição..." required	/></label>
 		</div>
 	</div>
 		<input type="hidden" name="id" id="id"/>
@@ -77,17 +87,7 @@ if(login_check($mysql_con) == true) : ?>
 
 <!-- Mascaras de campo -->
 	<script type="text/javascript">
-		$(document).ready(function(){
-			$("#cod_banc").mask("999",{placeholder:" "})		
-		});
-		
-		$(document).ready(function(){
-			$("#agencia").mask("?999999",{placeholder:" "})		
-		});
 
-		$(document).ready(function(){
-			$("#conta").mask("?999999999999",{placeholder:" "})		
-		});
 	</script>
 
 

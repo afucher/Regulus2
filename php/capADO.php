@@ -54,25 +54,27 @@ for($nFor = 1;$nFor <= $parcela; $nFor++)
 	$val_tit = $arr_val_tit[$nFor];
 	$dat_venc_tit = $arr_data_tit[$nFor];
 
-	insertTit($num_tit,$parcela,$num_nf,$desc_tit,$id_forn,$dat_emis,$dat_venc_tit,$val_tit,$num_par,$tipo,$mysql_con);
+	insertTit($num_tit,$parcela,$num_nf,$desc_tit,$id_forn,$dat_emis,$dat_venc_tit,$val_tit,$num_par,$tipo,$val_tot,$mysql_con);
 }
 	
 header('Location: ../brwCAP.php');
 
 }
 
-function insertTit($num_tit,$parcela,$num_nf,$desc_tit,$id_forn,$dat_emis,$dat_venc_tit,$val_tit,$num_par,$tipo,$mysql_con)
+function insertTit($num_tit,$parcela,$num_nf,$desc_tit,$id_forn,$dat_emis,$dat_venc_tit,$val_tit,$num_par,$tipo,$val_tot,$mysql_con)
 {
-$query = "INSERT INTO titulos (num_tit, parcela, num_nf, desc_tit, id_forn, dat_emis, dat_venc, val_tit, num_par, tipo) VALUES (?,?,?,?,?,?,?,?,?,?)";
+$query = "INSERT INTO titulos (num_tit, parcela, num_nf, desc_tit, id_forn, dat_emis, dat_venc, val_tit, num_par, tipo, val_tot) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
 if(!$stmt = $mysql_con->prepare($query)){
-	echo "Prepare failed: (" . $mysql_con->errno . ") " . $mysql_con->error;
+	die("Prepare failed: (" . $mysql_con->errno . ") " . $mysql_con->error);
 }
 
-$stmt->bind_param('ssssissdss',$num_tit,$parcela,$num_nf,$desc_tit,$id_forn,$dat_emis,$dat_venc_tit,$val_tit,$num_par,$tipo);
-if (!$stmt->execute()){
-echo "Prepare failed: (" . $mysql_con->errno . ") " . $mysql_con->error;
-}
+	if (!$stmt->bind_param('ssssissdssd',$num_tit,$parcela,$num_nf,$desc_tit,$id_forn,$dat_emis,$dat_venc_tit,$val_tit,$num_par,$tipo,$val_tot)){
+		die("Bind failed: (" . $mysql_con->errno . ") " . $mysql_con->error);	
+	}
+	if (!$stmt->execute()){
+	 die("Execute failed: (" . $mysql_con->errno . ") " . $mysql_con->error);
+	}
 }
 
 function somar_data($data, $dias, $meses, $ano){

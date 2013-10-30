@@ -45,12 +45,13 @@ if(login_check($mysql_con) == true) : ?>
 					jsonReader : { repeatitems: false },
 					url:'brwBancADO.php',
 					datatype: "json",
-					colNames:['id','Cod.Bancario','Agencia','Conta'],
+					colNames:['id','Descrição','Cod.Bancario','Agencia','Conta'],
 					colModel:[
 						{name:'id',index:'id',sortable:false, width:70, align:'center', hidden:false},
+						{name:'descricao',index:'descricao',sortable:false, align:'center', width:150},
 						{name:'cod_banc',index:'cod_banc',sortable:false, align:'center', width:150},
 						{name:'agencia',index:'agencia',sortable:false, align:'center', width:200},
-						{name:'conta',index:'conta',sortable:false, align:'center', width:150},		
+						{name:'conta',index:'conta',sortable:false, align:'center', width:150},							
 					],
 					rowNum:10,
 					rowList:[10,20,30],
@@ -60,7 +61,7 @@ if(login_check($mysql_con) == true) : ?>
 					//sortname: 'id',
 					viewrecords: true,
 					//sortorder: "desc",
-					caption:"Fornecedores"
+					caption:"Dados Bancários"
 				});
 				jQuery("#list2").jqGrid('navGrid','#pager2',{edit:false,add:false,del:false});
 			});
@@ -103,7 +104,7 @@ if(login_check($mysql_con) == true) : ?>
 <?php
 	menu();
 ?>
-<h2>Fornecedores</h2>
+<h2>Dados Bancários</h2>
 <div id="brw_container">
 	<input type="button" id="edit" value="Alterar"/>
 	<input type="button" id="del" value="Deletar"/>
