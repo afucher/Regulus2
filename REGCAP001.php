@@ -76,7 +76,7 @@ if(login_check($mysql_con) == true) : ?>
 				</label>
 			<label> Dt.Emissao:  	<input name="emissao"	type="date" 	id="emissao" 	placeholder="Dt.Emissao..."	required ></label> 
 			<label> Vencimento:   	<input name="venc"		type="date" 	id="venc" 		placeholder="Vencimento..."		required ></label> 
-			<label> Valor Desconto:  <input name="vlrdesc"	type="text" 	id="vlrdesc" 	placeholder="Valor Desconto..."  		 disabled></label> 
+			<!--<label> Valor Desconto:  <input name="vlrdesc"	type="text" 	id="vlrdesc" 	placeholder="Valor Desconto..."  		 disabled></label> -->
 			<label> Valor Total:   <input name="vlrtot"	type="text" 	id="vlrtot" 	placeholder="Valor Total..." 	required > </label> 
 		</div>
 		<!--<div id="tabs-2">
@@ -94,6 +94,7 @@ if(login_check($mysql_con) == true) : ?>
 		<input name="limpar" type="reset" id="limpar" value="Limpar" />
 
 	</div>
+	<span></span>
 </form>
 
 <!-- Scripts responsáveis pelas máscaras de campo-->
@@ -102,6 +103,41 @@ if(login_check($mysql_con) == true) : ?>
 			$("#vlrtot").maskMoney({showSymbol:true, symbol:"R$", decimal:",", thousands:"."});
 			$("#numparc").mask("99",{placeholder:" "});
 	});
+
+	//------------
+	//Valid form
+	//------------
+	$( "#forn_form" ).submit(function( event ) {
+	  if ( validDate($( "#emissao" ).val() , $( "#venc" ).val()) <= 0 ) {
+	    $( "span" ).text( "Validated..." ).show();
+	    return;
+	  }
+	 
+	  $( "span" ).text( "Data de emissão posterior ao vencimento!" ).show().fadeOut( 3000 );
+	  event.preventDefault();
+	});
+
+
+	function validDate(data1,data2){
+		var nReturn;
+		if (data1 == data2){
+			nReturn = 0;
+		}else if (data1 < data2){
+			nReturn = -1;
+		}else if (data1 > data2){
+			nReturn = 1;
+		}
+		return nReturn;
+	}
+
+	function getJSDate(myDate){
+		var dateParts = myDate.split("-");
+		var jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0,2));
+		jsDate = $.datepicker.formatDate('yy-mm-dd', jsDate);
+		return jsDate;
+	}	
+
+
 </script>
 
 <?php else :
