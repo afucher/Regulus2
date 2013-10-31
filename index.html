@@ -9,7 +9,28 @@
     <link rel="stylesheet" href="animate.css">
     <link rel="stylesheet" href="estilo.css">
 	<link rel="stylesheet" href="titulo.css">
+    <!-- JS -->
+    <script src="js/jquery-1.9.1.js"></script>
 </head>
+
+
+<script>
+    $.urlParam = function(name){
+       var results = new RegExp('[\\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
+       if (results == null){
+            return null;
+       }else{
+        return results[1] || null;
+       }
+    }
+    $( document ).ready(function() {
+        var url = decodeURIComponent($.urlParam('redir'));
+        if(url != "null"){    
+          $("#url").val(url + '.php');
+        }
+    }); 
+</script>
+
 
 <h1>Escola Regulus</h1>
 
@@ -25,6 +46,7 @@
             <div id="lower"> 
                 <input type="submit" value="Login"> 
             </div><!--/ lower--> 
+            <input type="hidden" id="url" name="url">
         </form>
     </div><!--/ container-->
 </body>

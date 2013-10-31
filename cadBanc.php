@@ -92,6 +92,7 @@ if(login_check($mysql_con) == true) : ?>
 
 
 <?php else :
-   echo 'You are not authorized to access this page, please login. <br/>';
+   //echo 'You are not authorized to access this page, please login. <br/>';
+	redirLogin('cadBanc');
    endif;
 ?>

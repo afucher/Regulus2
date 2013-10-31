@@ -11,10 +11,17 @@ if(isset($_POST['username'], $_POST['password'])) {
    $email = $_POST['username'];
    $password = $_POST['password']; // The hashed password.
    if(login($email, $password, $mysql_con) == true) {
+      $url = isset($_POST['url']) ? $_POST['url'] : false;
       // Login success
       //echo 'Success: You have been logged in!';
 	  //$con->close();
-	  header('Location: ..\index.php');
+      //echo $url;
+      if ($url){
+
+         header('Location: ..\\' . $url);
+      }else{
+         header('Location: ..\index.php');
+      }
 	  exit();
    } else {
       // Login failed

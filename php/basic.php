@@ -37,8 +37,8 @@ function login($login, $password, $mysql_con) {
  
                $user_id = preg_replace("/[^0-9]+/", "", $user_id); // XSS protection as we might print this value
                $_SESSION['user_id'] = $user_id; 
-               $username = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $username); // XSS protection as we might print this value
-               $_SESSION['username'] = $username;
+               $name = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $name); // XSS protection as we might print this value
+               $_SESSION['username'] = $name;
                $_SESSION['login_string'] = hash('sha512', $password.$user_browser);
                // Login successful.
                return true;    
@@ -55,7 +55,7 @@ function login($login, $password, $mysql_con) {
          return false;
       }
       } else{
-      echo "teste";
+      //echo "teste";
 //      echo mysqli_error($mysql_con);
       echo mysql_errno($mysql_con) . ": " . mysql_error($mysql_con). "\n";
    }
@@ -131,6 +131,10 @@ function logout(){
   // Destroy session
   session_destroy();
   header('Location: ./index.html');
+}
+
+function redirLogin($page){
+  header('Location: ./index.html?redir=' . $page);
 }
 
 function menu(){

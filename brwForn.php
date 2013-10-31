@@ -97,6 +97,7 @@ if(login_check($mysql_con) == true) : ?>
 </html>
 
 <?php else :
-   echo 'You are not authorized to access this page, please login. <br/>';
+   //echo 'You are not authorized to access this page, please login. <br/>';
+	redirLogin('brwForn');
    endif;
 ?>

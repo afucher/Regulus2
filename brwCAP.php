@@ -288,6 +288,7 @@ if(login_check($mysql_con) == true) : ?>
 </script>
 
 <?php else :
-   echo 'You are not authorized to access this page, please login. <br/>';
+   //echo 'You are not authorized to access this page, please login. <br/>';
+   redirLogin('brwCAP');
    endif;
 ?>
