@@ -26,6 +26,41 @@ if(login_check($mysql_con) == true) : ?>
 	  $(function() {
 			$( "#tabs" ).tabs();
 		});
+
+	  $.urlParam = function(name){
+ 		   var results = new RegExp('[\\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
+ 		   if (results == null){
+ 		   		return null;
+ 		   }else{
+ 		   	return results[1] || null;
+ 		   }
+		}
+		$( document ).ready(function() {
+			var id = decodeURIComponent($.urlParam('id'));
+			var obj_banc;
+	  		if(id != "null"){
+	  			$.get( "php/getForn.php?id=" + id, function( data ) {
+					  obj_banc = jQuery.parseJSON (data );
+					  $("#name").val(obj_banc.raz_social);
+					  $("#cgc").val(obj_banc.cgc).prop('readonly', true);
+					  $("#ie").val(obj_banc.ie).prop('readonly', true);
+					  $("#bairro").val(obj_banc.bairro);
+					  $("#cidade").val(obj_banc.cidade);
+					  $("#est").val(obj_banc.estado);
+					  $("#munic").val(obj_banc.municip);
+					  $("#cep").val(obj_banc.cep);
+					  $("#tipo").val(obj_banc.tipo_forn);
+					  $("#tel").val(obj_banc.telefone);
+					  $("#email").val(obj_banc.email);
+					  $("#homepage").val(obj_banc.homep);
+					  $("#contato").val(obj_banc.contato);
+					  $("#end").val(obj_banc.endereco);
+					  $("#id").val(obj_banc.id);
+					});
+
+	  		}
+		});
+
 		function my_submit(){
 			$("#cgc_real").val($("#cgc").val().replace(/\D/g, ""));
 			$("#cep_real").val($("#cep").val().replace(/-/g, ""));
@@ -78,8 +113,8 @@ if(login_check($mysql_con) == true) : ?>
 	</select>  </label>
 	<label>Telefone:		<input name="telefone" 		type="tel"	id="tel"	placeholder="Telefone..." > </label> 
 	<label>E-mail:			<input name="email"	 	type="text"	id="email"	placeholder="E-mail..."> </label>
-	<label>Home-Page:		<input name="homepage" 		type="text"	id="home"	placeholder="HomePage..."> </label> 
-	<label>Contato:		<input name="contato" 	type="text"	id="cont"	placeholder="Contato..."> </label>
+	<label>Home-Page:		<input name="homepage" 		type="text"	id="homepage"	placeholder="HomePage..."> </label> 
+	<label>Contato:		<input name="contato" 	type="text"	id="contato"	placeholder="Contato..."> </label>
 	
 	<!-- Mascaras de campo -->
 	<script type="text/javascript">
@@ -101,7 +136,7 @@ if(login_check($mysql_con) == true) : ?>
 		<input id="cgc_real" name="cgc_real" type="hidden"/>
 		<input id="cep_real" name="cep_real" type="hidden"/>
 		<input id="tel_real" name="tel_real" type="hidden"/>
-		<input id="id_forn" name="id_forn" type="hidden"/>
+		<input id="id" name="id" type="hidden"/>
 		<input type="submit" value="Salvar" onclick="my_submit()">
 	</div>
 	

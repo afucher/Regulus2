@@ -76,6 +76,22 @@ if(login_check($mysql_con) == true) : ?>
 				// do something here
 				return cellvalue;
 			}
+			function alterar(id){
+				window.location.replace("./cadForn.php?id=" + id);
+			}
+			function getField(field){
+				var myGrid = jQuery("#browse");
+				var colSel = myGrid.jqGrid('getGridParam','selrow');
+				if (colSel==null)
+				{
+					return null;
+				}else{
+					return myGrid.jqGrid('getCell',colSel,field);
+				}
+			}
+			function getID(){
+				return getField('id');
+			}
 		</script>
 	
 	
@@ -89,11 +105,25 @@ if(login_check($mysql_con) == true) : ?>
 ?>
 <h2>Fornecedores</h2>
 <div id="brw_container">
+	<input type="button" id="edit" value="Alterar"/>
 	<table id="browse"/>
 	<div id="pager2">
 </div>
 
 </body>
+
+
+<script>
+	jQuery("#edit").click( function() {
+		var id = getID();
+		if(id==null){
+			alert('Selecione um título...');
+		}else{
+			alterar(id);
+		}
+	});
+</script>
+
 </html>
 
 <?php else :

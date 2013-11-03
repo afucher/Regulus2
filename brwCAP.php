@@ -186,7 +186,7 @@ if(login_check($mysql_con) == true) : ?>
 	</form>
 </div>
 <div id="brw_container">
-	<input type="button" id="create" value="Incluir" onclick="window.location.href='REGCAP001.php'"/>
+	<!--<input type="button" id="create" value="Incluir" onclick="window.location.href='REGCAP001.php'"/>-->
 	<input type="button" id="edit" value="Deletar"/>
 	<input type="button" id="baixar" value="Baixar"/>
 	<table id="browse">
