@@ -17,9 +17,11 @@ if(login_check($mysql_con) == true) : ?>
 	<link rel="stylesheet" href="css\menu.css">
 	<link href="css/smoothness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 	    <link rel="stylesheet" href="estilo2.css">
-	<!-- JS -->
-	<script src="js/jquery-1.9.1.js"></script>
-    <script src="js/jquery.maskedinput-1.1.4.pack.js" type="text/javascript"></script>
+	<!-- JS 
+	<script src="js/jquery-1.9.1.js"></script>-->
+	<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <!--<script src="js/jquery.maskedinput-1.1.4.pack.js" type="text/javascript"></script>-->
+        <script src="js/jquery.maskedinput.min.js" type="text/javascript"></script>
 	<script src="js/jquery.maskMoney.js" type="text/javascript"></script>
 	<script src="js/utils.js" type="text/javascript"></script>
 	<script src="js/jquery-ui-1.10.3.custom.js"></script>
@@ -48,7 +50,7 @@ if(login_check($mysql_con) == true) : ?>
 			<label for="titulo"> N.Titulo: <input name="titulo"	type="text" 	id="titulo" 	placeholder="Titulo..." 		required />	</label> 
 			<label> Nota Fiscal: 	<input name="nf"		type="text" 	id="nf" 		placeholder="Nota Fiscal..."			 ></label> 
 			<label> Descricao:    	<input name="desc"		type="text" 	id="desc" 		placeholder="Descricao..." 				 ></label> 
-			<label> Num.Parcelas: 	<input name="numparc"	type="text" 	id="numparc"	placeholder="Num.Parcelas..."  maxlength="2" size="2" 	 ></label> 
+			<label> Num.Parcelas: 	<input name="numparc"	type="text" 	id="numparc"	placeholder="Num.Parcelas..."  ></label> 
 				<label>Tipo de Conta:
 					<select name="tipo_conta" id="tipo_conta">
 					<?php
@@ -101,7 +103,7 @@ if(login_check($mysql_con) == true) : ?>
 <script>
 	$(document).ready(function(){
 			$("#vlrtot").maskMoney({showSymbol:true, symbol:"R$", decimal:",", thousands:"."});
-			$("#numparc").mask("99",{placeholder:" "});
+			$("#numparc").mask("9?9",{placeholder:" "});
 	});
 
 	//------------

@@ -44,13 +44,14 @@ if(login_check($mysql_con) == true) : ?>
 					jsonReader : { repeatitems: false },
 					url:'adoCAP.php',
 					datatype: "json",
-					colNames:['No. Título','Parcela','Fornecedor','Valor','Dat. Vencimento'],
+					colNames:['No. Título','Parcela','Fornecedor','Valor','Dat. Vencimento','Dat. Emissao'],
 					colModel:[
 						{name:'num_tit',index:'num_tit',sortable:false, width:70, align:"center", hidden:false},
 						{name:'num_par',index:'num_par',sortable:false, align:"right",width:60},
 						{name:'fornecedor',index:'fornecedor',sortable:false, width:200, align:"right", formatter:cnpjFormatter},
 						{name:'val_tit',index:'val_tit',sortable:false, width:150, align:"right"},
 						{name:'dat_venc',index:'dat_venc',sortable:false, width:150, align:"right"},
+						{name:'dat_emis',index:'dat_emis',sortable:false, width:150, align:"right",hidden:true},
 					],
 					rowNum:10,
 					rowList:[10,20,30],
@@ -111,13 +112,23 @@ if(login_check($mysql_con) == true) : ?>
 			width: 500,
 			buttons: {
 				"Baixar": function() {
-				  $( this ).dialog( "close" );
-				  var param = {"dt_baixa":$("#dt_baixa").val(),"val_pago":$("#val_pago").val(),"titulo":getSelTitulo(),"parcela":getSelParcela(),"val_desc":$("#val_desc").val(),"val_multa":$("#val_multa").val(),"id_banc":$("#conta_banc").val()};
-				  $.post( "php/baixaCAP.php", param)
-					.done(function( data ) {
-					 	//alert(data);
-						location.reload();
-					});
+					var data_emiss = getJSDate(getSelDatEmiss());
+					  if ( validDate($( "#dt_baixa" ).val() , data_emiss)  >= 0 ) {
+					    if( validDate($( "#dt_baixa" ).val() , $.datepicker.formatDate('yy-mm-dd', new Date()))  <= 0 ){
+						    $( this ).dialog( "close" );
+							  var param = {"dt_baixa":$("#dt_baixa").val(),"val_pago":$("#val_pago").val(),"titulo":getSelTitulo(),"parcela":getSelParcela(),"val_desc":$("#val_desc").val(),"val_multa":$("#val_multa").val(),"id_banc":$("#conta_banc").val()};
+							  $.post( "php/baixaCAP.php", param)
+								.done(function( data ) {
+								 	//alert(data);
+									location.reload();
+								});
+						}else{
+							$( "#msgSpan" ).text( "Data de baixa posterior a de hoje!" ).show().fadeOut( 3000 );
+						}
+
+					  }else{
+					  $( "#msgSpan" ).text( "Data de baixa inferior a Emissão!" ).show().fadeOut( 3000 );
+					}
 				},
 				"Cancelar": function() {
 				  $( this ).dialog( "close" );
@@ -155,7 +166,7 @@ if(login_check($mysql_con) == true) : ?>
 <div id="dialog" title="Deletar...">
 </div>
 <div id="dialog_baixa" title="Baixar título..." style="width:auto !important;">
-	<form id="form_baixa" action="php/baixaCAP.php">
+	<form id="form_baixa">
 		<label>Data de Baixa: 
 			<input id="dt_baixa" type="date" required/>
 		</label>
@@ -180,6 +191,7 @@ if(login_check($mysql_con) == true) : ?>
 		<label>Valor pago: 
 			<input id="val_pago" type="text" required/>
 		</label>
+		<span id="msgSpan"></span>
 		<input type="hidden" id="num_tit"/>
 		<input type="hidden" id="num_par"/>
 		<input type="hidden" id="dat_venc"/>
@@ -233,17 +245,23 @@ if(login_check($mysql_con) == true) : ?>
 	function getSelDatVenc(){
 		return getField('dat_venc');
 	}
+	//-------------------------------------------------
+	//Retorna o dt de vencimento do titulo selecionado
+	//-------------------------------------------------
+	function getSelDatEmiss(){
+		return getField('dat_emis');
+	}
 
-	function validDate(data){
-		if (jsDate == new Date()){
-			alert('igual');
+	function validDate(data1,data2){
+		var nReturn;
+		if (data1 == data2){
+			nReturn = 0;
+		}else if (data1 < data2){
+			nReturn = -1;
+		}else if (data1 > data2){
+			nReturn = 1;
 		}
-		if (jsDate < $.datepicker.formatDate('yy-mm-dd', new Date())){
-			alert('venc menor');
-		}
-		if (jsDate > $.datepicker.formatDate('yy-mm-dd', new Date())){
-			alert('venc maior');
-		}
+		return nReturn;
 	}
 
 	function getJSDate(myDate){
@@ -285,6 +303,28 @@ if(login_check($mysql_con) == true) : ?>
 	$("#val_pago").maskMoney({showSymbol:true, symbol:"R$", decimal:",", thousands:"."});
 	$("#val_multa").maskMoney({showSymbol:true, symbol:"R$", decimal:",", thousands:"."});
 	$("#val_desc").maskMoney({showSymbol:true, symbol:"R$", decimal:",", thousands:"."});
+
+
+
+	//------------
+	//Valid form
+	//------------
+	$( "#form_baixa" ).submit(function( event ) {
+		alert("te3ste");
+		alert(getSelDatVenc());
+	  var data_emiss = getJSDate(getSelDatVenc());
+	  alert(data_emiss);
+	  if ( validDate($( "#dt_baixa" ).val() , data_emiss)  > 0 ) {
+	    $( "span" ).text( "Validated..." ).show();
+	    event.preventDefault();
+	    return;
+	  }
+	 
+	  $( "span" ).text( "Data de emissão posterior ao vencimento!" ).show().fadeOut( 3000 );
+	  event.preventDefault();
+	});
+
+
 </script>
 
 <?php else :

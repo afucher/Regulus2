@@ -17,7 +17,7 @@ if($parcela){
 }
 
 function delAll($num_tit,$mysql_con){
-$query = "DELETE FROM titulos WHERE Num_tit = ?";
+$query = "DELETE FROM titulos WHERE Num_tit = ? AND dat_baix IS NULL";
 if(!$stmt = $mysql_con->prepare($query)){
 	echo "Prepare failed: (" . $mysql_con->errno . ") " . $mysql_con->error;
 }

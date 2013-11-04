@@ -28,15 +28,16 @@ $limit = $_REQUEST['rows']; // get how many rows we want to have into the grid
 	
 	$stmt = null;
 	
-	$stmt = $mysql_con->prepare("SELECT num_tit,num_par,val_tit,raz_social,dat_venc FROM titulos AS tit,  fornecedores as forn where tit.ID_Forn = forn.id_forn AND dat_baix IS NULL");
+	$stmt = $mysql_con->prepare("SELECT num_tit,num_par,val_tit,raz_social,dat_venc,dat_emis FROM titulos AS tit,  fornecedores as forn where tit.ID_Forn = forn.id_forn AND dat_baix IS NULL");
 	$stmt->execute();
-	$stmt->bind_result($num_tit,$num_par,$val_tit,$raz_social,$dat_venc);
+	$stmt->bind_result($num_tit,$num_par,$val_tit,$raz_social,$dat_venc,$dat_emis);
 	while($stmt->fetch()){
 		$responce->rows[$i]['num_tit']=$num_tit;
 		$responce->rows[$i]['num_par']=$num_par;
 		$responce->rows[$i]['fornecedor']=$raz_social;
 		$responce->rows[$i]['val_tit']=$val_tit;
 		$responce->rows[$i]['dat_venc']=$dat_venc;
+		$responce->rows[$i]['dat_emis']=$dat_emis;
 		$i++;
 	}
 	
