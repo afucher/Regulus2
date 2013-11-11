@@ -3,13 +3,35 @@
 include "./basic.php";
 include "./basicRel.php";
 include './db.php';
-
 sec_session_start();
 if(login_check($mysql_con) == true){
+	
+	$data_ini = isset($_REQUEST['data_ini']) ? $_REQUEST['data_ini']: false;
+	$data_fim = isset($_REQUEST['data_fim']) ? $_REQUEST['data_fim']: false;
+	$id_forn = isset($_REQUEST['id_forn']) ? $_REQUEST['id_forn']: false;
+	
+	$query = "SELECT num_tit,num_par,val_tit,raz_social,dat_baix,val_pag FROM titulos AS tit,  fornecedores as forn where tit.ID_Forn = forn.id_forn AND dat_baix IS NOT NULL";
+	
+	//------------------------
+	//Tratamento de parâmetros
+	//------------------------
+	if($data_ini){
+		$query = $query . " AND dat_baix >= '" . $data_ini . "'"; 
+	}
+	
+	if($data_fim){
+		$query = $query . " AND dat_baix <= '" . $data_fim . "'"; 
+	}
+	
+	if($id_forn && !($id_forn == "*")){
+		$query = $query . " AND forn.id_forn = " . $id_forn; 
+	}
 
-	$stmt = $mysql_con->prepare("SELECT num_tit,num_par,val_tit,raz_social,dat_baix,val_pag FROM titulos AS tit,  fornecedores as forn where tit.ID_Forn = forn.id_forn AND dat_baix IS NOT NULL");
+	$stmt = $mysql_con->prepare($query);
 	$stmt->execute();
 	$stmt->bind_result($num_tit,$num_par,$val_tit,$raz_social,$dat_baix,$val_pag);
+	
+	$total = 0.00;
 	
 	$html = '';
 	
@@ -20,9 +42,13 @@ if(login_check($mysql_con) == true){
 	$html = $html . geraLinha(Array("Título","Parcela","Valor Título","Fornecedor","Data de Baixa","Valor Pago"));
 	while($stmt->fetch()){
 		$html = $html . geraLinha(Array($num_tit,$num_par,toMoney($val_tit,'R$'),$raz_social,$dat_baix,toMoney($val_pag,'R$')));
+		$total += $val_pag;
 	}
 	$html = $html . '</tbody>
 		</table>';
+		
+	$html = $html . '<p>Total : ' . toMoney($total,'R$') . '</p>';
+
 
 include('MPDF57/mpdf.php');
 $mpdf=new mPDF();
