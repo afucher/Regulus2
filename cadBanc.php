@@ -49,7 +49,7 @@ if(login_check($mysql_con) == true) : ?>
 
 	  		}else{
 	  			$("#cod_banc").mask("999",{placeholder:" "})
-	  			$("#agencia").mask("?999999",{placeholder:" "})
+	  			$("#agencia").mask("9999?9",{placeholder:" "})
 	  			$("#conta").mask("?999999999999",{placeholder:" "})	
 		  	}
 		});
@@ -74,7 +74,7 @@ if(login_check($mysql_con) == true) : ?>
 	<div id="tabs-1">
 		<div>
 			<label for="cod_banc">Cod. Bancario:<input name="cod_banc" type="text" maxlength="3" id="cod_banc"	placeholder="Cod. Banc." required	/></label>
-			<label for="agencia">Agencia:<input name="agencia" type="text" maxlength="6" id="agencia"	placeholder="Agencia..." required	/></label>
+			<label for="agencia">Agencia:<input name="agencia" type="text" maxlength="5" id="agencia"	placeholder="Agencia..." required	/></label>
 			<label for="conta">Conta:<input name="conta" type="text" maxlength="12" id="conta"	placeholder="Conta..." required	/></label>
 			<label for="desc">Descrição:<input name="desc" type="text" maxlength="15" id="desc"	placeholder="Descrição..." required	/></label>
 		</div>
