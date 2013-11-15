@@ -126,7 +126,7 @@ if(login_check($mysql_con) == true) : ?>
 	jQuery("#edit").click( function() {
 		var id = getID();
 		if(id==null){
-			alert('Selecione um título...');
+			alert('Selecione um fornecedor...');
 		}else{
 			alterar(id);
 		}
