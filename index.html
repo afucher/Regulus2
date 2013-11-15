@@ -7,7 +7,6 @@
     <!-- CSS -->
     <link rel="stylesheet" href="estilo.css">
     <link rel="stylesheet" href="animate.css">
-    <link rel="stylesheet" href="estilo.css">
 	<link rel="stylesheet" href="titulo.css">
     <!-- JS -->
     <script src="js/jquery-1.9.1.js"></script>
@@ -28,6 +27,11 @@
         if(url != "null"){    
           $("#url").val(url + '.php');
         }
+        var err = decodeURIComponent($.urlParam('error'));
+        if(err != null){
+            if(err==1)
+                $( "#spanzinho" ).text( "Usuário e/ou Senha incorreto(s)!" ).show().fadeOut( 4000 );
+        }
     }); 
 </script>
 
@@ -43,6 +47,7 @@
             <label for="password">Senha:</label> 
              <!-- <p><a href="#">esqueceu a senha?</a></p> -->
             <input type="password" id="password" name="password"> 
+            <span class="error" id="spanzinho"></span>
             <div id="lower"> 
                 <input type="submit" value="Login"> 
             </div><!--/ lower--> 

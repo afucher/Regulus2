@@ -3,6 +3,9 @@ input.invalid{
 	border-color:#FF0000 !important;
 }
 
+span.error{padding-left: 10px; color: red;}
+}
+
 input[readonly="readonly"]
 {
     opacity:1; filter:alpha(opacity=100);
