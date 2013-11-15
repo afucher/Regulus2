@@ -78,19 +78,8 @@ if(login_check($mysql_con) == true) : ?>
 				</label>
 			<label> Dt.Emissao:  	<input name="emissao"	type="date" 	id="emissao" 	placeholder="Dt.Emissao..."	required ></label> 
 			<label> Vencimento:   	<input name="venc"		type="date" 	id="venc" 		placeholder="Vencimento..."		required ></label> 
-			<!--<label> Valor Desconto:  <input name="vlrdesc"	type="text" 	id="vlrdesc" 	placeholder="Valor Desconto..."  		 disabled></label> -->
 			<label> Valor Total:   <input name="vlrtot"	type="text" 	id="vlrtot" 	placeholder="Valor Total..." 	required > </label> 
 		</div>
-		<!--<div id="tabs-2">
-			<label> Valor Multa: </label>    <input name="vlrmlt"	type="text" 	id="vlrmlt" 	placeholder="Valor Multa..." 	 		 >
-		</div>-->
-		
-		<!-- Campos omitidos
-		<label> Parcela: </label>     	<input name="parc"		type="text" 	id="parc" 		placeholder="Parcela..." 		required >
-		<label> Dt.Baixa: </label>       <input name="baixa"		type="date" 	id="baixa" 		placeholder="Dt.Baixa..." 				 >
-		<label> Valor pago: </label>     <input name="vlrpgt"	type="text" 	id="vlrpgt" 	placeholder="Valor pago..." 	 		 >
-		<label> Valor Titulo: </label>	<input name="vlrtit"	type="text" 	id="vlrtit" 	placeholder="Valor Titulo...">
-		-->
 		
 		<input type="submit" value="Salvar">
 		<input name="limpar" type="reset" id="limpar" value="Limpar" />
@@ -111,12 +100,17 @@ if(login_check($mysql_con) == true) : ?>
 	//------------
 	$( "#forn_form" ).submit(function( event ) {
 	  if ( validDate($( "#emissao" ).val() , $( "#venc" ).val()) <= 0 ) {
-	    $( "span" ).text( "Validated..." ).show();
-	    return;
+	    if (validDate($( "#emissao" ).val() , $.datepicker.formatDate('yy-mm-dd', new Date()) ) <= 0) {
+		    $( "span" ).text( "Validated..." ).show();
+		    return;
+	    }else{
+	    	$( "span" ).text( "Data de emissão posterior a data de hoje!" ).show().fadeOut( 3000 );
+	  		event.preventDefault();
+	    }
+	  }else{
+	  	$( "span" ).text( "Data de emissão posterior ao vencimento!" ).show().fadeOut( 3000 );
+	  	event.preventDefault();
 	  }
-	 
-	  $( "span" ).text( "Data de emissão posterior ao vencimento!" ).show().fadeOut( 3000 );
-	  event.preventDefault();
 	});
 
 
