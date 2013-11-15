@@ -41,12 +41,13 @@ if(login_check($mysql_con) == true) : ?>
 					jsonReader : { repeatitems: false },
 					url:'server.php',
 					datatype: "json",
-					colNames:['id','Nome','CNPJ','Inscrição Estadual'],
+					colNames:['id','Nome','CGC','Inscrição Estadual','Tipo de Fornecedor'],
 					colModel:[
 						{name:'id',index:'id',sortable:false, width:70, align:"center", hidden:false},
 						{name:'name',index:'name',sortable:false, width:150},
 						{name:'cnpj',index:'cnpj',sortable:false, width:200, align:"right", formatter:cnpjFormatter},
 						{name:'ie',index:'ie',sortable:false, width:150, align:"right"},		
+						{name:'tipo_forn',sortable:false, width:150, align:"right",hidden:true},
 					],
 					rowNum:10,
 					rowList:[10,20,30],
@@ -62,18 +63,26 @@ if(login_check($mysql_con) == true) : ?>
 			});
 			function cnpjFormatter (cellvalue, options, rowObject)
 			{
-				//Coloca ponto entre o segundo e o terceiro dígitos
-				cellvalue=cellvalue.replace(/^(\d{2})(\d)/,"$1.$2")
-		 
-				//Coloca ponto entre o quinto e o sexto dígitos
-				cellvalue=cellvalue.replace(/^(\d{2})\.(\d{3})(\d)/,"$1.$2.$3")
-		 
-				//Coloca uma barra entre o oitavo e o nono dígitos
-				cellvalue=cellvalue.replace(/\.(\d{3})(\d)/,".$1/$2")
-		 
-				//Coloca um hífen depois do bloco de quatro dígitos
-				cellvalue=cellvalue.replace(/(\d{4})(\d)/,"$1-$2")
-				// do something here
+				
+				//1 = Jurídico (CNPJ)
+				//2 = Físico (CPF)
+				if(rowObject.tipo_forn == 1){
+					//Coloca ponto entre o segundo e o terceiro dígitos
+					cellvalue=cellvalue.replace(/^(\d{2})(\d)/,"$1.$2")
+					//Coloca ponto entre o quinto e o sexto dígitos
+					cellvalue=cellvalue.replace(/^(\d{2})\.(\d{3})(\d)/,"$1.$2.$3")
+					//Coloca uma barra entre o oitavo e o nono dígitos
+					cellvalue=cellvalue.replace(/\.(\d{3})(\d)/,".$1/$2")
+			 		//Coloca um hífen depois do bloco de quatro dígitos
+					getCellvalue=cellvalue.replace(/(\d{4})(\d)/,"$1-$2")
+				}else{
+				    //Coloca um ponto entre o terceiro e o quarto dígitos
+				    cellvalue = cellvalue.replace(/(\d{3})(\d)/, "$1.$2");
+				    //Coloca um ponto entre o sexto e o setimo dígitos 
+				    cellvalue = cellvalue.replace(/(\d{3})(\d)/, "$1.$2");
+				     //Coloca um hífen entre o terceiro e o quarto dígitos
+				    cellvalue = cellvalue.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+				}	
 				return cellvalue;
 			}
 			function alterar(id){

@@ -49,13 +49,14 @@ if(login_check($mysql_con) == true) : ?>
 					  $("#est").val(obj_banc.estado);
 					  $("#munic").val(obj_banc.municip);
 					  $("#cep").val(obj_banc.cep);
-					  $("#tipo").val(obj_banc.tipo_forn);
+					  $("#tipo_forn").val(obj_banc.tipo_forn).prop('disabled',true);
 					  $("#tel").val(obj_banc.telefone);
 					  $("#email").val(obj_banc.email);
 					  $("#homepage").val(obj_banc.homep);
 					  $("#contato").val(obj_banc.contato);
 					  $("#end").val(obj_banc.endereco);
 					  $("#id").val(obj_banc.id);
+					  AlterTp();
 					});
 
 	  		}
@@ -65,11 +66,10 @@ if(login_check($mysql_con) == true) : ?>
 			$("#cgc_real").val($("#cgc").val().replace(/\D/g, ""));
 			$("#cep_real").val($("#cep").val().replace(/-/g, ""));
 			$("#tel_real").val($("#tel").val().replace(/\(|\)|-/g, ""));
-			//$("#forn_form").submit();
+			$("#forn_form").submit();
 		}
 		function validateForm(){
-			if (!validarCNPJ($("#cgc").val()))
-				return false;
+			return validCGCField();
 		}
 		
 	</script>
@@ -92,9 +92,16 @@ if(login_check($mysql_con) == true) : ?>
 	</ul>
 	<div id="tabs-1">
 	<div>
-	<label for="name"> Razao Social:</label>	<input name="name" maxlength="50"		type="text"	id="name" 	placeholder="Nome..." required	/>
-	<label for="cgc"> CNPJ:</label><input name="cgc" 		type="text"	id="cgc"  onblur="valid(this)" required/>
+		<label for="name"> Razao Social:</label>	<input name="name" maxlength="50"		type="text"	id="name" 	placeholder="Nome..." required	/>
 	</div>
+	<p>
+		<label for="cgc" id="lbl_cgc"> CNPJ:</label><input name="cgc" 		type="text"	id="cgc"  onblur="validCGCField(this)" required/>
+		<label for="tipo_forn">Tipo: </label> 
+		<select name="tipo_forn" id="tipo_forn" onchange="AlterTp();">
+			<option value="1">Juridico</option>
+			<option value="2">Fisico</option>
+		</select>
+	</p>
 	<div>
 	<label for="ie"> Inscr.Estad.:</label><input name="ie" 	type="text"	id="ie" size="9" maxlength="9"/>
 	<label for="end">Endereco:<input name="end" maxlength="40"		type="text"	id="end" 	placeholder="Endereco..."/> </label>
@@ -106,11 +113,6 @@ if(login_check($mysql_con) == true) : ?>
 	<label for="est">Estado:<input name="estado" 	maxlength="2" type="text"	id="est"    maxlength="2"	placeholder="Estado"/></label>
 	<label for="munic">Municipio:<input name="municipio" maxlength="60"	type="text"	id="munic"  placeholder="Municipio..."/></label>
 	<label for="cep">CEP:<input name="cep" 		type="text"	id="cep"  	placeholder="CEP..."/></label>
-	<label for="tipo">Tipo:  
-	<select name="tipo_forn" id="tipo" onchange="AlterTp(this.form);" disabled >
-		<option value="1">Juridico</option>
-		<option value="2">Fisico</option>
-	</select>  </label>
 	<label>Telefone:		<input name="telefone" 		type="tel"	id="tel"	placeholder="Telefone..." > </label> 
 	<label>E-mail:			<input name="email"	 maxlength="20"	type="text"	id="email"	placeholder="E-mail..."> </label>
 	<label>Home-Page:		<input name="homepage" 	maxlength="20"	type="text"	id="homepage"	placeholder="HomePage..."> </label> 
@@ -143,12 +145,39 @@ if(login_check($mysql_con) == true) : ?>
 </form>
 
 <script type="text/javascript">	
-	function valid(input){
-		if (validarCNPJ(input.value)){
-			$(input).removeClass("invalid");
-		}else{
-			$(input).addClass("invalid");
+	function validCGCField(input){
+		var valid = true;
+		if(isJuridico()){
+			valid = validarCNPJ($("#cgc").val());
 		}
+		if (input != null){
+			if (valid){
+				$(input).removeClass("invalid");
+			}else{
+				$(input).addClass("invalid");
+			}
+		}
+		return valid;
+	}
+	function AlterTp(){
+		if (isJuridico()) {
+			$("#cgc").mask("99.999.999/9999-99",{placeholder:" "});
+			chgLabelCGC("CNPJ:");
+
+		}else{
+			$("#cgc").mask("999.999.999-99",{placeholder:" "});
+			chgLabelCGC("CPF:");
+		}	
+	}
+
+	function isJuridico(){
+		//1 - Jurídico
+		//2 - Físico
+		return $("#tipo_forn").val() == 1;
+	}
+
+	function chgLabelCGC(text){
+		$("#lbl_cgc").text(text);
 	}
 </script>
 
