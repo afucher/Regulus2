@@ -92,19 +92,19 @@ if(login_check($mysql_con) == true) : ?>
 	</ul>
 	<div id="tabs-1">
 	<div>
-	<label for="name"> Razao Social:</label>	<input name="name" 		type="text"	id="name" 	placeholder="Nome..." required	/>
+	<label for="name"> Razao Social:</label>	<input name="name" maxlength="50"		type="text"	id="name" 	placeholder="Nome..." required	/>
 	<label for="cgc"> CNPJ:</label><input name="cgc" 		type="text"	id="cgc"  onblur="valid(this)" required/>
 	</div>
 	<div>
 	<label for="ie"> Inscr.Estad.:</label><input name="ie" 	type="text"	id="ie" size="9" maxlength="9"/>
-	<label for="end">Endereco:<input name="end" 		type="text"	id="end" 	placeholder="Endereco..."/> </label>
+	<label for="end">Endereco:<input name="end" maxlength="40"		type="text"	id="end" 	placeholder="Endereco..."/> </label>
 	</div>
 	</div>
 	<div id="tabs-2">
-	<label for="bairro">Bairro:<input name="bairro"	type="text"	id="bairro" placeholder="Bairro..." /></label>
-	<label for="cidade">Cidade:<input name="cidade"	type="text"	id="cidade" placeholder="Cidade..." />  </label>
-	<label for="est">Estado:<input name="estado" 	type="text"	id="est"    maxlength="2"	placeholder="Estado"/></label>
-	<label for="munic">Municipio:<input name="municipio" 	type="text"	id="munic"  placeholder="Municipio..."/></label>
+	<label for="bairro">Bairro:<input name="bairro"	maxlength="20" type="text"	id="bairro" placeholder="Bairro..." /></label>
+	<label for="cidade">Cidade:<input name="cidade"	maxlength="20" type="text"	id="cidade" placeholder="Cidade..." />  </label>
+	<label for="est">Estado:<input name="estado" 	maxlength="2" type="text"	id="est"    maxlength="2"	placeholder="Estado"/></label>
+	<label for="munic">Municipio:<input name="municipio" maxlength="60"	type="text"	id="munic"  placeholder="Municipio..."/></label>
 	<label for="cep">CEP:<input name="cep" 		type="text"	id="cep"  	placeholder="CEP..."/></label>
 	<label for="tipo">Tipo:  
 	<select name="tipo_forn" id="tipo" onchange="AlterTp(this.form);" disabled >
@@ -112,9 +112,9 @@ if(login_check($mysql_con) == true) : ?>
 		<option value="2">Fisico</option>
 	</select>  </label>
 	<label>Telefone:		<input name="telefone" 		type="tel"	id="tel"	placeholder="Telefone..." > </label> 
-	<label>E-mail:			<input name="email"	 	type="text"	id="email"	placeholder="E-mail..."> </label>
-	<label>Home-Page:		<input name="homepage" 		type="text"	id="homepage"	placeholder="HomePage..."> </label> 
-	<label>Contato:		<input name="contato" 	type="text"	id="contato"	placeholder="Contato..."> </label>
+	<label>E-mail:			<input name="email"	 maxlength="20"	type="text"	id="email"	placeholder="E-mail..."> </label>
+	<label>Home-Page:		<input name="homepage" 	maxlength="20"	type="text"	id="homepage"	placeholder="HomePage..."> </label> 
+	<label>Contato:		<input name="contato" maxlength="30"	type="text"	id="contato"	placeholder="Contato..."> </label>
 	
 	<!-- Mascaras de campo -->
 	<script type="text/javascript">
