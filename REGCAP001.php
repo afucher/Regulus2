@@ -47,9 +47,9 @@ if(login_check($mysql_con) == true) : ?>
 			<li><a href="#tabs-1">Cadastrais</a></li>		
 		</ul>
 		<div id="tabs-1">
-			<label for="titulo"> N.Titulo: <input name="titulo"	type="text" 	id="titulo" 	placeholder="Titulo..." 		required />	</label> 
-			<label> Nota Fiscal: 	<input name="nf"		type="text" 	id="nf" 		placeholder="Nota Fiscal..."			 ></label> 
-			<label> Descricao:    	<input name="desc"		type="text" 	id="desc" 		placeholder="Descricao..." 				 ></label> 
+			<label for="titulo"> N.Titulo: <input name="titulo" maxlength="9" type="text" 	id="titulo" 	placeholder="Titulo..." 		required />	</label> 
+			<label> Nota Fiscal: 	<input name="nf"	maxlength="9"	type="text" 	id="nf" 		placeholder="Nota Fiscal..."			 ></label> 
+			<label> Descricao:    	<input name="desc"	maxlength="64"	type="text" 	id="desc" 		placeholder="Descricao..." 				 ></label> 
 			<label> Num.Parcelas: 	<input name="numparc"	type="text" 	id="numparc"	placeholder="Num.Parcelas..."  ></label> 
 				<label>Tipo de Conta:
 					<select name="tipo_conta" id="tipo_conta">
