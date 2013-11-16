@@ -1,0 +1,1 @@
+ALTER TABLE  `fornecedores` ADD  `ativo` BOOLEAN NOT NULL DEFAULT TRUE ;

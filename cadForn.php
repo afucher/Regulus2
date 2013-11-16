@@ -15,6 +15,7 @@ if(login_check($mysql_con) == true) : ?>
     <!-- CSS -->
 	<link rel="stylesheet" href="titulo.css">
 	<link rel="stylesheet" href="css\menu.css">
+	<link rel="stylesheet" type="text/css" href="css\slide_check.css">
 	<link href="css/smoothness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 	    <link rel="stylesheet" href="estilo2.css">
 	<!-- JS -->
@@ -56,7 +57,9 @@ if(login_check($mysql_con) == true) : ?>
 					  $("#tipo_forn option").prop('disabled',true);*/
 					 $("#tipo_forn").val(obj_banc.tipo_forn).prop('disabled',true);
 
-
+					 if(obj_banc.ativo == 2){
+					 	$("#ativo").removeAttr('checked');
+					 } 
 
 					  $("#tel").val(obj_banc.telefone);
 					  $("#email").val(obj_banc.email);
@@ -99,21 +102,27 @@ if(login_check($mysql_con) == true) : ?>
 		<li><a href="#tabs-2">Secundário</a></li>
 	</ul>
 	<div id="tabs-1">
-	<div>
-		<label for="name"> Razao Social:</label>	<input name="name" maxlength="50"		type="text"	id="name" 	placeholder="Nome..." required	/>
-	</div>
-	<p>
-		<label for="cgc" id="lbl_cgc"> CNPJ:</label><input name="cgc" 		type="text"	id="cgc"  onblur="validCGCField(this)" required/>
-		<label for="tipo_forn">Tipo: </label> 
-		<select name="tipo_forn" id="tipo_forn" onchange="AlterTp();">
-			<option value="1">Juridico</option>
-			<option value="2">Fisico</option>
-		</select>
-	</p>
-	<div>
-	<label for="ie"> Inscr.Estad.:</label><input name="ie" 	type="text"	id="ie" size="9" maxlength="9"/>
-	<label for="end">Endereco:<input name="end" maxlength="40"		type="text"	id="end" 	placeholder="Endereco..."/> </label>
-	</div>
+		<div>
+			<label for="name"> Razao Social:</label>	<input name="name" maxlength="50"		type="text"	id="name" 	placeholder="Nome..." required	/>
+		</div>
+		<p>
+			<label for="cgc" id="lbl_cgc"> CNPJ:</label><input name="cgc" 		type="text"	id="cgc"  onblur="validCGCField(this)" required/>
+			<label for="tipo_forn">Tipo: </label> 
+			<select name="tipo_forn" id="tipo_forn" onchange="AlterTp();">
+				<option value="1">Juridico</option>
+				<option value="2">Fisico</option>
+			</select>
+		</p>
+		<div>
+		<label for="ie"> Inscr.Estad.:</label><input name="ie" 	type="text"	id="ie" size="9" maxlength="9"/>
+		<label for="end">Endereco:<input name="end" maxlength="40"		type="text"	id="end" 	placeholder="Endereco..."/> </label>
+		</div>
+		<div class="slideThree">
+				<input type="checkbox" value="1" id="ativo" name="ativo" checked="checked" onblur="mycheck(this)"/>
+				<label for="ativo"></label>
+			<!--<label for="ativo">Ativado</label>
+			<input id="ativo" type="checkbox" checked="checked"/>-->
+		</div>
 	</div>
 	<div id="tabs-2">
 	<label for="bairro">Bairro:<input name="bairro"	maxlength="20" type="text"	id="bairro" placeholder="Bairro..." /></label>
@@ -153,6 +162,11 @@ if(login_check($mysql_con) == true) : ?>
 </form>
 
 <script type="text/javascript">	
+
+	function mycheck(check){
+		alert(check.val());
+	}
+
 	function validCGCField(input){
 		var valid = true;
 		if(isJuridico()){

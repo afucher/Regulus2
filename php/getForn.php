@@ -8,10 +8,10 @@ $responce = new stdClass;
 
 $stmt = null;
 
-$stmt = $mysql_con->prepare("SELECT raz_social, endereco, bairro, cidade, estado, municip, cep, telefone, email, homep, contato, cgc, ie, tipo_forn FROM fornecedores WHERE id_forn = ?");
+$stmt = $mysql_con->prepare("SELECT raz_social, endereco, bairro, cidade, estado, municip, cep, telefone, email, homep, contato, cgc, ie, tipo_forn, ativo FROM fornecedores WHERE id_forn = ?");
 $stmt->bind_param('i',$id);
 $stmt->execute();
-$stmt->bind_result($raz_social, $endereco, $bairro, $cidade, $estado, $municip, $cep, $telefone, $email, $homep, $contato, $cgc, $ie, $tipo_forn);
+$stmt->bind_result($raz_social, $endereco, $bairro, $cidade, $estado, $municip, $cep, $telefone, $email, $homep, $contato, $cgc, $ie, $tipo_forn, $ativo);
 if($stmt->fetch()){
 	$responce->id=$id;
 
@@ -30,6 +30,7 @@ if($stmt->fetch()){
 	$responce->cgc=$cgc;
 	$responce->ie=$ie;
 	$responce->tipo_forn=$tipo_forn;
+	$responce->ativo=$ativo;
 }
 
 echo json_encode($responce);

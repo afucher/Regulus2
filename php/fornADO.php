@@ -22,6 +22,7 @@ $contato = isset($_REQUEST['contato']) ? $_REQUEST['contato']: "";
 $id = isset($_REQUEST['id']) ? $_REQUEST['id']: "";
 //1 - Pessoa Jurídica | 2 - Pessoa Física
 $tipo_forn = isset($_REQUEST['tipo_forn']) ? $_REQUEST['tipo_forn']: "1";
+$ativo = isset($_REQUEST['ativo']) ? $_REQUEST['ativo']: "2";
 
 $cgc_real = isset($_REQUEST['cgc_real']) ? $_REQUEST['cgc_real']: false;
 $tel_real = isset($_REQUEST['tel_real']) ? $_REQUEST['tel_real']: false;
@@ -52,24 +53,24 @@ die();
 */
 
 	if($id){
-		if(updateForn($cgc_real,$name,$end,$ie,$bairro,$cidade,$estado,$municipio,$cep_real,$tipo_pessoa,$tel_real,$email,$homepage,$contato,$tipo_forn,$id,$mysql_con)){
+		if(updateForn($cgc_real,$name,$end,$ie,$bairro,$cidade,$estado,$municipio,$cep_real,$tipo_pessoa,$tel_real,$email,$homepage,$contato,$tipo_forn,$ativo,$id,$mysql_con)){
 			header('Location: ../brwForn.php');
 		}
 	}else{
-		if(insertForn($cgc_real,$name,$end,$ie,$bairro,$cidade,$estado,$municipio,$cep_real,$tipo_pessoa,$tel_real,$email,$homepage,$contato,$tipo_forn,$mysql_con)){
+		if(insertForn($cgc_real,$name,$end,$ie,$bairro,$cidade,$estado,$municipio,$cep_real,$tipo_pessoa,$tel_real,$email,$homepage,$contato,$tipo_forn,$ativo,$mysql_con)){
 			header('Location: ../brwForn.php');
 		}
 	}
 }
 
-function insertForn($cgc,$name,$end,$ie,$bairro,$cidade,$estado,$municipio,$cep,$tipo_pessoa,$telefone,$email,$homepage,$contato,$tipo_forn,$mysql_con)
+function insertForn($cgc,$name,$end,$ie,$bairro,$cidade,$estado,$municipio,$cep,$tipo_pessoa,$telefone,$email,$homepage,$contato,$tipo_forn,$ativo,$mysql_con)
 {
-	$query = "INSERT INTO fornecedores (raz_social, endereco, bairro, cidade, estado, municip, cep, telefone, email, homep, contato, cgc, ie, tipo_forn) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	$query = "INSERT INTO fornecedores (raz_social, endereco, bairro, cidade, estado, municip, cep, telefone, email, homep, contato, cgc, ie, tipo_forn, ativo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	if(!$stmt = $mysql_con->prepare($query)){
 		echo "Prepare failed: (" . $mysql_con->errno . ") " . $mysql_con->error;
 	}
-	$stmt->bind_param('sssssssssssssi',$name,$end,$bairro,$cidade,$estado,$municipio,$cep,$telefone,$email,$homepage,$contato,$cgc,$ie,$tipo_forn);
+	$stmt->bind_param('sssssssssssssii',$name,$end,$bairro,$cidade,$estado,$municipio,$cep,$telefone,$email,$homepage,$contato,$cgc,$ie,$tipo_forn,$ativo);
 	$lRet = $stmt->execute();
 	if (!$lRet){
 		echo "Execute failed: (" . $mysql_con->errno . ") " . $mysql_con->error;
@@ -78,14 +79,14 @@ function insertForn($cgc,$name,$end,$ie,$bairro,$cidade,$estado,$municipio,$cep,
 }
 
 
-function updateForn($cgc,$name,$end,$ie,$bairro,$cidade,$estado,$municipio,$cep,$tipo_pessoa,$telefone,$email,$homepage,$contato,$tipo_forn,$id,$mysql_con)
+function updateForn($cgc,$name,$end,$ie,$bairro,$cidade,$estado,$municipio,$cep,$tipo_pessoa,$telefone,$email,$homepage,$contato,$tipo_forn,$ativo,$id,$mysql_con)
 {
-	$query = "UPDATE fornecedores SET raz_social = ?, endereco = ?, bairro = ?, cidade = ?, estado = ?, municip = ?, cep = ?, telefone = ?, email = ?, homep = ?, contato = ?, cgc = ?, ie = ? WHERE id_forn = ?";
+	$query = "UPDATE fornecedores SET raz_social = ?, endereco = ?, bairro = ?, cidade = ?, estado = ?, municip = ?, cep = ?, telefone = ?, email = ?, homep = ?, contato = ?, cgc = ?, ie = ?, ativo = ? WHERE id_forn = ?";
 
 	if(!$stmt = $mysql_con->prepare($query)){
 		echo "Prepare failed: (" . $mysql_con->errno . ") " . $mysql_con->error;
 	}
-	$stmt->bind_param('sssssssssssssi',$name,$end,$bairro,$cidade,$estado,$municipio,$cep,$telefone,$email,$homepage,$contato,$cgc,$ie,$id);
+	$stmt->bind_param('sssssssssssssii',$name,$end,$bairro,$cidade,$estado,$municipio,$cep,$telefone,$email,$homepage,$contato,$cgc,$ie,$ativo,$id);
 	$lRet = $stmt->execute();
 	if (!$lRet){
 		echo "Execute failed: (" . $mysql_con->errno . ") " . $mysql_con->error;
