@@ -49,7 +49,15 @@ if(login_check($mysql_con) == true) : ?>
 					  $("#est").val(obj_banc.estado);
 					  $("#munic").val(obj_banc.municip);
 					  $("#cep").val(obj_banc.cep);
-					  $("#tipo_forn").val(obj_banc.tipo_forn).prop('disabled',true);
+					  /*$("#tipo_forn option:selected").prop("selected",false);
+					  $("#tipo_forn option[value=" + obj_banc.tipo_forn + "]")
+        				.prop("selected",true);
+
+					  $("#tipo_forn option").prop('disabled',true);*/
+					 $("#tipo_forn").val(obj_banc.tipo_forn).prop('disabled',true);
+
+
+
 					  $("#tel").val(obj_banc.telefone);
 					  $("#email").val(obj_banc.email);
 					  $("#homepage").val(obj_banc.homep);

@@ -80,12 +80,12 @@ function insertForn($cgc,$name,$end,$ie,$bairro,$cidade,$estado,$municipio,$cep,
 
 function updateForn($cgc,$name,$end,$ie,$bairro,$cidade,$estado,$municipio,$cep,$tipo_pessoa,$telefone,$email,$homepage,$contato,$tipo_forn,$id,$mysql_con)
 {
-	$query = "UPDATE fornecedores SET raz_social = ?, endereco = ?, bairro = ?, cidade = ?, estado = ?, municip = ?, cep = ?, telefone = ?, email = ?, homep = ?, contato = ?, cgc = ?, ie = ?, tipo_forn = ? WHERE id_forn = ?";
+	$query = "UPDATE fornecedores SET raz_social = ?, endereco = ?, bairro = ?, cidade = ?, estado = ?, municip = ?, cep = ?, telefone = ?, email = ?, homep = ?, contato = ?, cgc = ?, ie = ? WHERE id_forn = ?";
 
 	if(!$stmt = $mysql_con->prepare($query)){
 		echo "Prepare failed: (" . $mysql_con->errno . ") " . $mysql_con->error;
 	}
-	$stmt->bind_param('sssssssssssssii',$name,$end,$bairro,$cidade,$estado,$municipio,$cep,$telefone,$email,$homepage,$contato,$cgc,$ie,$tipo_forn,$id);
+	$stmt->bind_param('sssssssssssssi',$name,$end,$bairro,$cidade,$estado,$municipio,$cep,$telefone,$email,$homepage,$contato,$cgc,$ie,$id);
 	$lRet = $stmt->execute();
 	if (!$lRet){
 		echo "Execute failed: (" . $mysql_con->errno . ") " . $mysql_con->error;
