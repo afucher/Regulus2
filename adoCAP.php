@@ -7,7 +7,7 @@ $limit = $_REQUEST['rows']; // get how many rows we want to have into the grid
 //$sord = $_REQUEST['sord']; // get the direction
 //if(!$sidx) $sidx =1;
 
-//$totalrows = isset($_REQUEST['totalrows']) ? $_REQUEST['totalrows']: false;
+$totalrows = isset($_REQUEST['totalrows']) ? $_REQUEST['totalrows']: false;
 //if($totalrows) {$limit = $totalrows;}
  
 	$stmt = $mysql_con->prepare("SELECT COUNT(*) AS count FROM titulos WHERE dat_baix IS NULL");
@@ -20,6 +20,14 @@ $limit = $_REQUEST['rows']; // get how many rows we want to have into the grid
 		$total_pages = 0;
 	}
 	if ($page > $total_pages) $page=$total_pages;
+
+	// calculate the starting position of the rows 
+	$start = $limit*$page - $limit;
+
+	// if for some reasons start position is negative set it to 0 
+	// typical case is that the user type 0 for the requested page 
+	if($start <0) $start = 0; 
+
 	$responce = new stdClass;
 	$responce->page = $page;
 	$responce->total = $total_pages;
@@ -28,7 +36,7 @@ $limit = $_REQUEST['rows']; // get how many rows we want to have into the grid
 	
 	$stmt = null;
 	
-	$stmt = $mysql_con->prepare("SELECT num_tit,num_par,val_tit,raz_social,dat_venc,dat_emis FROM titulos AS tit,  fornecedores as forn where tit.ID_Forn = forn.id_forn AND dat_baix IS NULL");
+	$stmt = $mysql_con->prepare("SELECT num_tit,num_par,val_tit,raz_social,dat_venc,dat_emis FROM titulos AS tit,  fornecedores as forn where tit.ID_Forn = forn.id_forn AND dat_baix IS NULL LIMIT " . $start . ", " . $limit);
 	$stmt->execute();
 	$stmt->bind_result($num_tit,$num_par,$val_tit,$raz_social,$dat_venc,$dat_emis);
 	while($stmt->fetch()){
