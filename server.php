@@ -7,7 +7,7 @@ $limit = $_REQUEST['rows']; // get how many rows we want to have into the grid
 //$sord = $_REQUEST['sord']; // get the direction
 //if(!$sidx) $sidx =1;
 
-//$totalrows = isset($_REQUEST['totalrows']) ? $_REQUEST['totalrows']: false;
+$totalrows = isset($_REQUEST['totalrows']) ? $_REQUEST['totalrows']: false;
 //if($totalrows) {$limit = $totalrows;}
 
 	$stmt = $mysql_con->prepare("SELECT COUNT(*) AS count FROM fornecedores");
@@ -20,6 +20,14 @@ $limit = $_REQUEST['rows']; // get how many rows we want to have into the grid
 		$total_pages = 0;
 	}
 	if ($page > $total_pages) $page=$total_pages;
+
+	// calculate the starting position of the rows 
+	$start = $limit*$page - $limit;
+
+	// if for some reasons start position is negative set it to 0 
+	// typical case is that the user type 0 for the requested page 
+	if($start <0) $start = 0; 
+
 	$responce = new stdClass;
 	$responce->page = $page;
 	$responce->total = $total_pages;
@@ -28,7 +36,7 @@ $limit = $_REQUEST['rows']; // get how many rows we want to have into the grid
 	
 	$stmt = null;
 	
-	$stmt = $mysql_con->prepare("SELECT id_forn, raz_social, cgc, ie, tipo_forn FROM fornecedores");
+	$stmt = $mysql_con->prepare("SELECT id_forn, raz_social, cgc, ie, tipo_forn FROM fornecedores LIMIT " . $start . ", " . $limit);
 	$stmt->execute();
 	$stmt->bind_result($id,$name,$cnpj,$ie,$tipo_forn);
 	while($stmt->fetch()){
