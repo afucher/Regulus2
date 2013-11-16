@@ -14,6 +14,7 @@ if(login_check($mysql_con) == true) : ?>
     <title>REGULUS</title>
     <!-- CSS -->
     <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="css\thur.jqgrid.custom.css">
     <link rel="stylesheet" href="animate.css">
 	<link rel="stylesheet" href="titulo.css">
 	<link rel="stylesheet" href="css\menu.css">
@@ -41,14 +42,21 @@ if(login_check($mysql_con) == true) : ?>
 					jsonReader : { repeatitems: false },
 					url:'server.php',
 					datatype: "json",
-					colNames:['id','Nome','CGC','Inscrição Estadual','Tipo de Fornecedor'],
+					colNames:['id','Nome','CGC','Inscrição Estadual','Tipo de Fornecedor',"Ativo"],
 					colModel:[
 						{name:'id',index:'id',sortable:false, width:70, align:"center", hidden:false},
 						{name:'name',index:'name',sortable:false, width:150},
 						{name:'cnpj',index:'cnpj',sortable:false, width:200, align:"right", formatter:cnpjFormatter},
 						{name:'ie',index:'ie',sortable:false, width:150, align:"right"},		
 						{name:'tipo_forn',sortable:false, width:150, align:"right",hidden:true},
+						{name:'ativo',sortable:false, width:150, align:"right",hidden:true},
 					],
+					afterInsertRow: function(id, data)
+			        {
+			            if(parseInt(data.ativo) == 0) {
+			                $('tr#' + id).addClass('inactive');
+			            }
+			        },
 					rowNum:10,
 					rowList:[10,20,30],
 					pager: '#pager2',

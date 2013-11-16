@@ -36,15 +36,16 @@ $totalrows = isset($_REQUEST['totalrows']) ? $_REQUEST['totalrows']: false;
 	
 	$stmt = null;
 	
-	$stmt = $mysql_con->prepare("SELECT id_forn, raz_social, cgc, ie, tipo_forn FROM fornecedores LIMIT " . $start . ", " . $limit);
+	$stmt = $mysql_con->prepare("SELECT id_forn, raz_social, cgc, ie, tipo_forn, ativo FROM fornecedores LIMIT " . $start . ", " . $limit);
 	$stmt->execute();
-	$stmt->bind_result($id,$name,$cnpj,$ie,$tipo_forn);
+	$stmt->bind_result($id,$name,$cnpj,$ie,$tipo_forn,$ativo);
 	while($stmt->fetch()){
 		$responce->rows[$i]['id']=$id;
 		$responce->rows[$i]['name']=$name;
 		$responce->rows[$i]['cnpj']=$cnpj;
 		$responce->rows[$i]['ie']=$ie;
 		$responce->rows[$i]['tipo_forn']=$tipo_forn;
+		$responce->rows[$i]['ativo']=$ativo;
 		$i++;
 	}
 	
