@@ -67,7 +67,7 @@ if(login_check($mysql_con) == true) : ?>
 					<select name="id_forn" id="id_forn">
 					<?php
 						$stmt = null;
-						$stmt = $mysql_con->prepare("SELECT id_forn, raz_social FROM fornecedores");
+						$stmt = $mysql_con->prepare("SELECT id_forn, raz_social FROM fornecedores WHERE ativo = 1");
 						$stmt->execute();
 						$stmt->bind_result($id,$descricao);
 						while($stmt->fetch()){
