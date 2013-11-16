@@ -112,22 +112,15 @@ if(login_check($mysql_con) == true) : ?>
 			width: 500,
 			buttons: {
 				"Baixar": function() {
-					var data_emiss = getJSDate(getSelDatEmiss());
-					  if ( validDate($( "#dt_baixa" ).val() , data_emiss)  >= 0 ) {
-					    if( validDate($( "#dt_baixa" ).val() , $.datepicker.formatDate('yy-mm-dd', new Date()))  <= 0 ){
-						    $( this ).dialog( "close" );
-							  var param = {"dt_baixa":$("#dt_baixa").val(),"val_pago":$("#val_pago").val(),"titulo":getSelTitulo(),"parcela":getSelParcela(),"val_desc":$("#val_desc").val(),"val_multa":$("#val_multa").val(),"id_banc":$("#conta_banc").val()};
-							  $.post( "php/baixaCAP.php", param)
-								.done(function( data ) {
-								 	//alert(data);
-									location.reload();
-								});
-						}else{
-							$( "#msgSpan" ).text( "Data de baixa posterior a de hoje!" ).show().fadeOut( 3000 );
-						}
-
-					  }else{
-					  $( "#msgSpan" ).text( "Data de baixa inferior a Emissão!" ).show().fadeOut( 3000 );
+					var valid = validBaixa();
+					if(valid){
+					    $( this ).dialog( "close" );
+						var param = {"dt_baixa":$("#dt_baixa").val(),"val_pago":$("#val_pago").val(),"titulo":getSelTitulo(),"parcela":getSelParcela(),"val_desc":$("#val_desc").val(),"val_multa":$("#val_multa").val(),"id_banc":$("#conta_banc").val()};
+						$.post( "php/baixaCAP.php", param)
+							.done(function( data ) {
+							 	//alert(data);
+								location.reload();
+							});
 					}
 				},
 				"Cancelar": function() {
@@ -171,10 +164,10 @@ if(login_check($mysql_con) == true) : ?>
 			<input id="dt_baixa" type="date" required/>
 		</label>
 		<label>Multa: 
-			<input id="val_multa" type="text"/>
+			<input id="val_multa" onblur="refreshVal()" type="text"/>
 		</label>
 		<label>Desconto: 
-			<input id="val_desc" type="text"/>
+			<input id="val_desc" onblur="refreshVal()" type="text"/>
 		</label>
 		<label>Conta:
 				<select name="conta_banc" id="conta_banc" required>
@@ -271,6 +264,67 @@ if(login_check($mysql_con) == true) : ?>
 		return jsDate;
 	}	
 
+
+	function validBaixa(){
+		var valid = true;
+		var data_emiss = getJSDate(getSelDatEmiss());
+		//--------------------------------------------------------
+		//Validação da data de baixa
+		//--------------------------------------------------------
+		if ( validDate($( "#dt_baixa" ).val() , data_emiss)  < 0 ) {
+			valid = false;
+			$( "#msgSpan" ).text( "Data de baixa inferior a Emissão!" ).show().fadeOut( 3000 );
+		}else{
+			if( validDate($( "#dt_baixa" ).val() , $.datepicker.formatDate('yy-mm-dd', new Date()))  > 0 )	{
+				valid = false
+				$( "#msgSpan" ).text( "Data de baixa posterior a de hoje!" ).show().fadeOut( 3000 );
+			}
+		}
+		
+		if(valid){
+			var val_multa = $("#val_multa").val().replace(/[A-Za-z.$,-]/g, "")/100;
+			var val_desc = $("#val_desc").val().replace(/[A-Za-z.$,-]/g, "")/100;
+			var val_pago = $("#val_pago").val().replace(/[A-Za-z.$,-]/g, "")/100;
+			var val_tit = parseFloat(getSelValTit());
+			
+			if (val_multa == null){
+				val_multa = 0;
+			}
+			if (val_desc == null){
+				val_desc = 0;
+			}
+
+			if(val_tit + val_multa - val_desc != val_pago){
+				valid = false;
+				var val_diff =  val_pago - (val_tit + val_multa - val_desc);
+				val_diff = val_diff < 0 ? -val_diff : val_diff;
+				$( "#msgSpan" ).text( "Existe uma diferença de R$" + val_diff + " entre o valor pago e o do título!" ).show().fadeOut( 3000 );
+			}
+
+		}
+		return valid;
+
+
+	}
+
+	function refreshVal(){
+		var val_multa = $("#val_multa").val().replace(/[A-Za-z.$,-]/g, "")/100;
+		var val_desc = $("#val_desc").val().replace(/[A-Za-z.$,-]/g, "")/100;
+		var val_tit = parseFloat(getSelValTit());
+		if (val_multa == null){
+			val_multa = 0;
+		}
+		if (val_desc == null){
+			val_desc = 0;
+		}
+		var new_val = val_tit + val_multa - val_desc;
+		$("#val_pago").val(new_val.toFixed(2));
+		$("#val_pago").maskMoney('mask');
+		$("#val_multa").maskMoney('mask');
+		$("#val_desc").maskMoney('mask');
+
+	}
+
 	//-------------------------------------------------------
 	jQuery("#edit").click( function() {
 		var myGrid = jQuery("#browse");
@@ -290,10 +344,19 @@ if(login_check($mysql_con) == true) : ?>
 		}else{
 			if(confirm("Deseja baixar o título: " + titulo + "?"))
 			{
+				//-------------------------------------
+				//Carrega campos com valores para baixa
+				//-------------------------------------
 				$("#dt_baixa").val($.datepicker.formatDate('yy-mm-dd', new Date()));
 				$("#val_pago").val(getSelValTit());
 				$("#dat_venc").val(getJSDate(getSelDatVenc() ) );
+				//-------------------------------------
+				//Abre dialog de baixa
+				//-------------------------------------
 				$( "#dialog_baixa" ).dialog( "open" );
+				//-------------------------------------
+				//Aplica mascara nos campos
+				//-------------------------------------
 				$("#val_pago").maskMoney('mask');
 				$("#val_multa").maskMoney('mask');
 				$("#val_desc").maskMoney('mask');
@@ -304,27 +367,6 @@ if(login_check($mysql_con) == true) : ?>
 	$("#val_multa").maskMoney({showSymbol:true, symbol:"R$", decimal:",", thousands:"."});
 	$("#val_desc").maskMoney({showSymbol:true, symbol:"R$", decimal:",", thousands:"."});
 
-
-
-	//------------
-	//Valid form
-	//------------
-	$( "#form_baixa" ).submit(function( event ) {
-		alert("te3ste");
-		alert(getSelDatVenc());
-	  var data_emiss = getJSDate(getSelDatVenc());
-	  alert(data_emiss);
-	  if ( validDate($( "#dt_baixa" ).val() , data_emiss)  > 0 ) {
-	    $( "span" ).text( "Validated..." ).show();
-	    event.preventDefault();
-	    return;
-	  }
-	 
-	  $( "span" ).text( "Data de emissão posterior ao vencimento!" ).show().fadeOut( 3000 );
-	  event.preventDefault();
-	});
-
-
 </script>
 
 <?php else :
@@ -332,3 +374,4 @@ if(login_check($mysql_con) == true) : ?>
    redirLogin('brwCAP');
    endif;
 ?>
+
