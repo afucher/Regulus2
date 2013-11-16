@@ -57,7 +57,7 @@ if(login_check($mysql_con) == true) : ?>
 					  $("#tipo_forn option").prop('disabled',true);*/
 					 $("#tipo_forn").val(obj_banc.tipo_forn).prop('disabled',true);
 
-					 if(obj_banc.ativo == 2){
+					 if(obj_banc.ativo == 0){
 					 	$("#ativo").removeAttr('checked');
 					 } 
 

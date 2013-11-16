@@ -22,7 +22,9 @@ $contato = isset($_REQUEST['contato']) ? $_REQUEST['contato']: "";
 $id = isset($_REQUEST['id']) ? $_REQUEST['id']: "";
 //1 - Pessoa Jurídica | 2 - Pessoa Física
 $tipo_forn = isset($_REQUEST['tipo_forn']) ? $_REQUEST['tipo_forn']: "1";
-$ativo = isset($_REQUEST['ativo']) ? $_REQUEST['ativo']: "2";
+
+// 0 - desativado, outros valores ativado.
+$ativo = isset($_REQUEST['ativo']) ? $_REQUEST['ativo']: "0";
 
 $cgc_real = isset($_REQUEST['cgc_real']) ? $_REQUEST['cgc_real']: false;
 $tel_real = isset($_REQUEST['tel_real']) ? $_REQUEST['tel_real']: false;
