@@ -19,7 +19,6 @@ if(login_check($mysql_con) == true) : ?>
 	<link rel="stylesheet" href="titulo.css">
 	<link rel="stylesheet" href="css\menu.css">
 		<link href="css/smoothness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
-			<!--<link rel="stylesheet" type="text/css" media="screen" href="themes/redmond/jquery-ui-1.8.2.custom.css">-->
 		<link rel="stylesheet" type="text/css" media="screen" href="themes/ui.jqgrid.css">
 		<link rel="stylesheet" type="text/css" media="screen" href="themes/ui.multiselect.css">
 	
