@@ -12,7 +12,7 @@ if(login_check($mysql_con) == true){
 	$id_forn = isset($_REQUEST['id_forn']) ? $_REQUEST['id_forn']: false;
 
 
-	$query = "SELECT num_tit,num_par,val_tit,raz_social,dat_venc FROM titulos AS tit,  fornecedores as forn where tit.ID_Forn = forn.id_forn AND dat_baix IS NULL ORDER BY dat_venc";
+	$query = "SELECT num_tit,num_par,val_tit,raz_social,dat_venc FROM titulos AS tit,  fornecedores as forn where tit.ID_Forn = forn.id_forn AND dat_baix IS NULL";
 
 	//------------------------
 	//Tratamento de parâmetros
@@ -26,8 +26,10 @@ if(login_check($mysql_con) == true){
 	}
 	
 	if($id_forn && !($id_forn == "*")){
-		$query = $query . " AND forn.id_forn = " . $id_forn; 
+		$query = $query . " AND forn.id_forn = '" . $id_forn . "'"; 
 	}
+
+	$query .= " ORDER BY dat_venc";
 
 	$stmt = $mysql_con->prepare($query);
 	$stmt->execute();
