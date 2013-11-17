@@ -98,8 +98,8 @@ if(login_check($mysql_con) == true) : ?>
 <form id="forn_form" action="php\fornADO.php" onsubmit="return validateForm()"  style="max-width:800px; padding-left:5px;" >
 <div id="tabs">
 	  <ul>
-		<li><a href="#tabs-1">Principal</a></li>
-		<li><a href="#tabs-2">Secundário</a></li>
+		<li><a href="#tabs-1">Cadastrais</a></li>
+		<li><a href="#tabs-2">Opcionais</a></li>
 	</ul>
 	<div id="tabs-1">
 		<div>
