@@ -39,12 +39,19 @@ else{
 //----------------
 function deleteBanc($id,$mysql_con)
 {
+	$lRet = false;
 	$query = "DELETE FROM dados_banc WHERE id = ?";
 	if(!$stmt = $mysql_con->prepare($query)){
 		echo "Prepare failed: (" . $mysql_con->errno . ") " . $mysql_con->error;
 	}
-	$stmt->bind_param('i',$id);
-	return $stmt->execute();
+	if(!$stmt->bind_param('i',$id)){
+		echo "Bind failed: (" . $mysql_con->errno . ") " . $mysql_con->error;	
+	}
+	if(!$stmt->execute()){
+		$lRet = true;
+		echo "Execute failed: (" . $mysql_con->errno . ") " . $mysql_con->error;	
+	}
+	return $lRet;
 }
 
 

@@ -74,9 +74,16 @@ if(login_check($mysql_con) == true) : ?>
 				if(confirm("Deseja mesmo deletar o item " + id)){
 					var param;
 					param = {"id":id,"del":true}
-					$.post( "php/bancADO.php", param)
+					$.post( "php/canDelBanc.php", param)
 					.done(function( data ) {
-						location.reload();
+						if(data){
+							$.post( "php/bancADO.php", param)
+							.done(function( data ) {
+								location.reload();
+							});
+						}else{
+							alert("Esta conta já possui títulos associados, não é possível deletar!");
+						}
 					});
 				}
 			}
