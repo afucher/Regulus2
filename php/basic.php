@@ -240,7 +240,8 @@ return true;
 
 
 function getMenuRelatorio(){
-    echo '     <li>';
+/* 
+   echo '     <li>';
     echo '        <a>Relatórios</a>';
     echo '        <ul>';
     echo '          <li>';
@@ -257,6 +258,19 @@ function getMenuRelatorio(){
     echo '          </li>';
     echo '        </ul>';
     echo '      </li>'; 
+    */
+
+  echo '     <li>';
+  echo '        <a>Relatórios</a>';
+  echo '        <ul>';
+  echo '          <li>';
+  echo '            <a href="REGCAPR011.php?report=REGCAPR002">Contas a Pagar</a>';
+  echo '            <a href="REGCAPR011.php?report=REGCAPR003">Contas Vencidas</a>';
+  echo '            <a href="REGCAPR011.php?report=REGCAPR001">Contas a Pagar</a>';
+  echo '          </li>';
+  echo '        </ul>';
+  echo '      </li>'; 
+
 }
 
 function getMenuCadastro(){

@@ -7,7 +7,28 @@ include './db.php';
 sec_session_start();
 if(login_check($mysql_con) == true){
 
-	$stmt = $mysql_con->prepare("SELECT num_tit,num_par,val_tit,raz_social,dat_venc FROM titulos AS tit,  fornecedores as forn where tit.ID_Forn = forn.id_forn AND dat_baix IS NULL AND dat_venc < current_date ORDER BY dat_venc");
+	$data_ini = isset($_REQUEST['data_ini']) ? $_REQUEST['data_ini']: false;
+	$data_fim = isset($_REQUEST['data_fim']) ? $_REQUEST['data_fim']: false;
+	$id_forn = isset($_REQUEST['id_forn']) ? $_REQUEST['id_forn']: false;
+
+	$query = "SELECT num_tit,num_par,val_tit,raz_social,dat_venc FROM titulos AS tit,  fornecedores as forn where tit.ID_Forn = forn.id_forn AND dat_baix IS NULL AND dat_venc < current_date ORDER BY dat_venc";
+
+	//------------------------
+	//Tratamento de parâmetros
+	//------------------------
+	if($data_ini){
+		$query = $query . " AND dat_baix >= '" . $data_ini . "'"; 
+	}
+	
+	if($data_fim){
+		$query = $query . " AND dat_baix <= '" . $data_fim . "'"; 
+	}
+	
+	if($id_forn && !($id_forn == "*")){
+		$query = $query . " AND forn.id_forn = " . $id_forn; 
+	}
+
+	$stmt = $mysql_con->prepare($query);
 	$stmt->execute();
 	$stmt->bind_result($num_tit,$num_par,$val_tit,$raz_social,$dat_venc);
 	
