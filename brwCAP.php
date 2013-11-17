@@ -48,7 +48,7 @@ if(login_check($mysql_con) == true) : ?>
 					colModel:[
 						{name:'num_tit',index:'num_tit',sortable:false, width:70, align:"center", hidden:false},
 						{name:'num_par',index:'num_par',sortable:false, align:"right",width:60},
-						{name:'fornecedor',index:'fornecedor',sortable:false, width:200, align:"right", formatter:cnpjFormatter},
+						{name:'fornecedor',index:'fornecedor',sortable:false, width:200, align:"right"},
 						{name:'val_tit',index:'val_tit',sortable:false, width:150, align:"right"},
 						{name:'dat_venc',index:'dat_venc',sortable:false, width:150, align:"right"},
 						{name:'dat_emis',index:'dat_emis',sortable:false, width:150, align:"right",hidden:true},
@@ -65,22 +65,6 @@ if(login_check($mysql_con) == true) : ?>
 				});
 				jQuery("#list2").jqGrid('navGrid','#pager2',{edit:false,add:false,del:false});
 			});
-			function cnpjFormatter (cellvalue, options, rowObject)
-			{
-				//Coloca ponto entre o segundo e o terceiro dígitos
-				cellvalue=cellvalue.replace(/^(\d{2})(\d)/,"$1.$2")
-		 
-				//Coloca ponto entre o quinto e o sexto dígitos
-				cellvalue=cellvalue.replace(/^(\d{2})\.(\d{3})(\d)/,"$1.$2.$3")
-		 
-				//Coloca uma barra entre o oitavo e o nono dígitos
-				cellvalue=cellvalue.replace(/\.(\d{3})(\d)/,".$1/$2")
-		 
-				//Coloca um hífen depois do bloco de quatro dígitos
-				cellvalue=cellvalue.replace(/(\d{4})(\d)/,"$1-$2")
-				// do something here
-				return cellvalue;
-			}
 		</script>
 		<script>
 		var num_tit;

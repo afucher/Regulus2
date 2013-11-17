@@ -1,0 +1,1 @@
+ALTER TABLE  `reg_user` ADD  `admin` BOOLEAN NOT NULL DEFAULT FALSE ;

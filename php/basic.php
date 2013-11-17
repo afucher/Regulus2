@@ -15,7 +15,7 @@ function sec_session_start() {
 
 function login($login, $password, $mysql_con) {
    // Using prepared Statements means that SQL injection is not possible. 
-   if ($stmt = $mysql_con->prepare("SELECT id, name, password FROM reg_user WHERE username = ? LIMIT 1")) { 
+   if ($stmt = $mysql_con->prepare("SELECT id, name, password FROM reg_user WHERE username = ? AND ativo=1 LIMIT 1")) { 
       $stmt->bind_param("s", $login); // Bind "$email" to parameter.
       $stmt->execute(); // Execute the prepared query.
       $stmt->store_result();
@@ -137,16 +137,45 @@ function redirLogin($page){
   header('Location: ./index.html?redir=' . $page);
 }
 
+function getUserAccess(){
+  $user_access = null;
+  if(isset($_SESSION['user_id'])){
+    $stmt = null;
+    $mysql_con = new mysqli(HOST, USER, PASSWORD, DATABASE);
+    $stmt = $mysql_con->prepare("SELECT relatorio, cadastro, CAP, admin FROM reg_user WHERE id = ? AND ativo=1");
+    $stmt->bind_param('i',$_SESSION['user_id']);
+    $stmt->execute();
+    $stmt->bind_result($relatorio, $cadastro, $CAP, $admin);
+    if($stmt->fetch()){
+      $user_access = new stdClass;
+      $user_access->relatorios = $relatorio==1;
+      $user_access->cadastros = $cadastro==1;
+      $user_access->CAP = $CAP==1;
+      $user_access->admin = $admin==1;
+    }
+  }
+  return $user_access;
+
+}
+
+
 function menu(){
+$access = getUserAccess();
+
 echo '	<nav>';
 echo '		<ul>';
 echo '			<li>';
 echo '        <a href=".\index.php">Home</a>';
 echo '        <ul>';
-echo '          <li><a href="logout.php">Logout</a></li>';
+echo '          <li>';
+if($access->admin){
+  echo '            <a href="brwUser.php">Usuários</a>';
+}
+echo '            <a href="logout.php">Logout</a>';
+echo '          </li>';
 echo '        </ul>';
 echo '      </li>';
-echo '			<li>';
+/*echo '			<li>';
 echo '				<a>Cadastro</a>';
 echo '				<ul>';
 echo '					<li>';
@@ -168,17 +197,22 @@ echo '              </li>';
 echo '            </ul>';
 echo '					</li>';
 echo '				</ul>';
-echo '			</li>';
-echo '			<li>';
-echo '				<a>Contas a Pagar</a>';
-echo '				<ul>';
-echo '					<li>';
-echo '						<a href="REGCAP001.php">Inclusão</a>';
-echo '						<a href="brwCAP.php">Manutenção</a>';
-echo '					</li>';
-echo '				</ul>';
-echo '			</li>';
-echo '			<li>';
+echo '			</li>';*/
+if($access->cadastros){
+  getMenuCadastro();
+}
+if($access->CAP){
+  echo '     <li>';
+  echo '        <a>Contas a Pagar</a>';
+  echo '        <ul>';
+  echo '          <li>';
+  echo '            <a href="REGCAP001.php">Inclusão</a>';
+  echo '            <a href="brwCAP.php">Manutenção</a>';
+  echo '          </li>';
+  echo '        </ul>';
+  echo '      </li>';
+}
+/*echo '			<li>';
 echo '				<a>Relatórios</a>';
 echo '				<ul>';
 echo '					<li>';
@@ -194,7 +228,10 @@ echo "'./php/REGCAPR001.php'";
 echo ')"; taget="new"> Contas pagas </a>';
 echo '					</li>';
 echo '				</ul>';
-echo '			</li>';
+echo '			</li>';*/
+if($access->relatorios){
+  getMenuRelatorio();
+}
 echo '		</ul>';
 echo '	</nav>';
 
@@ -202,6 +239,51 @@ return true;
 }
 
 
+function getMenuRelatorio(){
+    echo '     <li>';
+    echo '        <a>Relatórios</a>';
+    echo '        <ul>';
+    echo '          <li>';
+    //echo '            <a href="javascript:abreRel(';
+    //echo "'./php/REGCAPR002.php'";
+    echo '            <a href="REGCAPR011.php?report=REGCAPR002">Contas a Pagar</a>';
+    //echo ')";> Contas a Pagar </a>';
+    echo '            <a href="javascript:abreRel(';
+    echo "'./php/REGCAPR003.php'";
+    echo ')"; taget="new"> Contas vencidas </a>';
+    echo '            <a href="javascript:abreRel(';
+    echo "'./php/REGCAPR001.php'";
+    echo ')"; taget="new"> Contas pagas </a>';
+    echo '          </li>';
+    echo '        </ul>';
+    echo '      </li>'; 
+}
 
+function getMenuCadastro(){
+    echo '      <li>';
+    echo '        <a>Cadastro</a>';
+    echo '        <ul>';
+    echo '          <li>';
+    echo '            <a href="brwForn.php"> Fornecedor </a>';
+    echo '            <ul>';
+    echo '              <li>';
+    echo '                <a href="cadForn.php">Inclusão</a>';
+    echo '                <a href="brwForn.php">Manutenção</a>';
+    echo '              </li>';
+    echo '            </ul>';
+    echo '         </li>';
+    echo '         <li>';
+    echo '            <a href="brwBanc.php"> Dados Bancarios </a>';
+    echo '            <ul>';
+    echo '              <li>';
+    echo '                <a href="cadBanc.php">Inclusão</a>';
+    echo '                <a href="brwBanc.php">Manutenção</a>';
+    echo '              </li>';
+    echo '            </ul>';
+    echo '          </li>';
+    echo '        </ul>';
+    echo '      </li>';
+    echo '      <li>';
+}
 
 ?>

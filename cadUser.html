@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Basics -->
+    <meta charset="utf-8">
+	<title>Regulus</title>
+
+	<!-- JS -->
+	<script src="js/jquery-1.9.1.js"></script>
+	<script src="js/jquery-ui-1.10.3.custom.js"></script>
+
+
+	<!-- CSS -->
+
+	<style type="text/css">
+	.checkbox_label.ui-state-active{
+		background: rgba(0, 255, 0, 0.4) !important;
+	}
+	.checkbox_label{
+		background: rgba(255, 0, 0, 0.4) !important;
+	}
+	</style>
+	<link href="css/smoothness/jquery-ui-1.10.3.custom.css" rel="stylesheet"/>
+	<link rel="stylesheet" href="titulo.css">
+	<link rel="stylesheet" href="estilo2.css">
+
+
+
+
+	<script>
+	  $(function() {
+			$( "#tabs" ).tabs();
+			$("#checks").buttonset();
+		});
+	</script>
+
+</head>
+
+<body>
+
+<form style="max-width:800px; padding-left:5px;" >
+	<div id="tabs">
+		<ul>
+			<li><a href="#tabs-1">Cadastrias</a></li>
+			<li><a href="#tabs-2">Acessos</a></li>
+		</ul>
+		<div id="tabs-1">
+			<p>
+				<label>Username:</label>
+				<input type="text" maxlength="15"/>
+			</p>
+			<p>
+				<label>Name:</label>
+				<input type="text" maxlength="30"/>
+			</p>
+			<p>
+				<label>Password:</label>
+				<input type="password" pattern=".{6,}"  title="Mínimo de 6 caracteres">
+			</p>
+		</div>
+		<div id="tabs-2">
+			<div id="checks">
+			<p>
+				<input type="checkbox" value="1" id="relatorio" name="relatorio" checked="checked"/>
+				<label class="checkbox_label" for="relatorio">Relatorio</label>
+			</p>
+			<p>
+				<input type="checkbox" value="1" id="cadastro" name="cadastro" checked="checked"/>
+				<label class="checkbox_label" for="cadastro">Cadastro</label>
+			</p>
+			<p>
+				<input type="checkbox" value="1" id="CAP" name="CAP" checked="checked"/>
+				<label class="checkbox_label" for="CAP">Contas a Pagar</label>
+			</p>
+		</div>
+		</div>
+	</div>
+	<input type="submit"/>
+</form>
+
+
+</body>
+</html>

@@ -1,6 +1,6 @@
 /* SLIDE THREE */
 
-input[type=checkbox] {
+.slideThree input[type=checkbox] {
 	visibility: hidden;
 	margin: 0 0 0 0;
 }
@@ -51,6 +51,8 @@ input[type=checkbox] {
 	display: block;
 	width: 80px;
 	height: 20px;
+
+	font-family: Verdana, Geneva, sans-serif;
 
 	-webkit-border-radius: 50px;
 	-moz-border-radius: 50px;

@@ -17,7 +17,7 @@ if(login_check($mysql_con) == true) : ?>
 	<link rel="stylesheet" href="css\menu.css">
 	<link rel="stylesheet" type="text/css" href="css\slide_check.css">
 	<link href="css/smoothness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
-	    <link rel="stylesheet" href="estilo2.css">
+	<link rel="stylesheet" href="estilo2.css">
 	<!-- JS -->
 	<script src="js/jquery-1.9.1.js"></script>
 	<script src="js/jquery-ui-1.10.3.custom.js"></script>

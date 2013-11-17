@@ -1,0 +1,1 @@
+ALTER TABLE  `reg_user` ADD  `ativo` BOOLEAN NOT NULL DEFAULT TRUE ;
