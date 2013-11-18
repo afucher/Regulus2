@@ -131,7 +131,7 @@ if(login_check($mysql_con) == true) : ?>
 	<label for="munic">Municipio:<input name="municipio" maxlength="60"	type="text"	id="munic"  placeholder="Municipio..."/></label>
 	<label for="cep">CEP:<input name="cep" 		type="text"	id="cep"  	placeholder="CEP..."/></label>
 	<label>Telefone:		<input name="telefone" 		type="tel"	id="tel"	placeholder="Telefone..." > </label> 
-	<label>E-mail:			<input name="email"	 maxlength="20"	type="text"	id="email"	placeholder="E-mail..."> </label>
+	<label>E-mail:			<input name="email"	 maxlength="30"	type="text"	id="email"	placeholder="E-mail..."> </label>
 	<label>Home-Page:		<input name="homepage" 	maxlength="20"	type="text"	id="homepage"	placeholder="HomePage..."> </label> 
 	<label>Contato:		<input name="contato" maxlength="30"	type="text"	id="contato"	placeholder="Contato..."> </label>
 	
