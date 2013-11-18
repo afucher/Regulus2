@@ -18,11 +18,11 @@ if(login_check($mysql_con) == true){
 	//Tratamento de parâmetros
 	//------------------------
 	if($data_ini){
-		$query = $query . " AND dat_baix >= '" . $data_ini . "'"; 
+		$query = $query . " AND dat_venc >= '" . $data_ini . "'"; 
 	}
 	
 	if($data_fim){
-		$query = $query . " AND dat_baix <= '" . $data_fim . "'"; 
+		$query = $query . " AND dat_venc <= '" . $data_fim . "'"; 
 	}
 	
 	if($id_forn && !($id_forn == "*")){
