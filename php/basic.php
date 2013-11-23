@@ -301,4 +301,22 @@ function getMenuCadastro(){
     echo '      <li>';
 }
 
+function chgPass($username,$old_pass,$new_pass, $mysql_con){
+
+  $lRet = true;
+  $query = "UPDATE reg_user SET password = ? WHERE username = ? AND password = ?";
+  if(!$stmt = $mysql_con->prepare($query)){
+      $lRet = false;
+    }
+    $stmt->bind_param('sss',$new_pass,$username,$old_pass);
+    $lRet = $stmt->execute();
+    if (!$lRet){
+      echo "Execute failed: (" . $mysql_con->errno . ") " . $mysql_con->error;
+    }
+    if($lRet && $stmt->affected_rows == 0){
+      $lRet = false;
+    }
+    return $lRet;
+}
+
 ?>

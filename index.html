@@ -47,13 +47,13 @@
     <div id="container">
         <form action="php/process_login.php" method="post">
             <label for="username">Usuario:</label>
-            <input type="text" id="username" name="username">
+            <input type="text" id="username" name="username" tabindex="1"/>
             <label for="password">Senha:</label> 
-             <!-- <p><a href="#">esqueceu a senha?</a></p> -->
-            <input type="password" id="password" name="password"> 
+            <p><a href="./chgPass.html">trocar a senha</a></p>
+            <input type="password" id="password" name="password" tabindex="2"/> 
             <span class="error" id="spanzinho"></span>
             <div id="lower"> 
-                <input type="submit" value="Login"> 
+                <input type="submit" value="Login" tabindex="3"/> 
             </div><!--/ lower--> 
             <input type="hidden" id="url" name="url">
         </form>
