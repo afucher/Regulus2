@@ -32,12 +32,16 @@
             if(err==1)
                 $( "#spanzinho" ).text( "Usuário e/ou Senha incorreto(s)!" ).show().fadeOut( 4000 );
         }
+    var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    
+    if (!isChrome) $( "#aviso" ).text( "Sistema homologado apenas no navegador Chrome" ).show();
     }); 
+
 </script>
 
 
 <h1>Escola Regulus</h1>
-
+<span id="aviso"></span>
 <body>
     <!-- Begin Page Content -->
     <div id="container">
