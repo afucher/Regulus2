@@ -6,7 +6,7 @@ nav{
 nav ul {
 	background: #efefef; 
 	background: linear-gradient(top, #6899D3 0%, #4284D3 100%);  
-	background: -moz-linear-gradient(top, #6899D3 0%, #4284D3 100%); 
+	background: -moz-linear-gradient(top, #efefef 0%, #bbbbbb 100%); 
 	background: -webkit-linear-gradient(top, #efefef 0%,#bbbbbb 100%); 
 	
 	/*background: -webkit-linear-gradient(top, #efefef 0%,#bbbbbb 100%);*/
