@@ -16,7 +16,7 @@ if(login_check($mysql_con) == true) : ?>
     <link rel="stylesheet" href="estilo.css">
     <link rel="stylesheet" href="animate.css">
 	<link rel="stylesheet" href="titulo.css">
-	<link rel="stylesheet" href="css\menu.css">
+	<link rel="stylesheet" href="css/menu.css">
 	<script src="js/utils.js" type="text/javascript"></script>
 </head>
 

@@ -18,9 +18,11 @@ if(isset($_POST['username'], $_POST['password'])) {
       //echo $url;
       if ($url){
 
-         header('Location: ..\\' . $url);
+         header('Location: ../' . $url);
+         exit();
       }else{
-         header('Location: ..\index.php');
+         header('Location: ../index.php');
+         exit();
       }
 	  exit();
    } else {
