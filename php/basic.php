@@ -267,7 +267,7 @@ function getMenuRelatorio(){
   echo '          <li>';
   echo '            <a href="REGCAPR011.php?report=REGCAPR002">Contas a Pagar</a>';
   echo '            <a href="REGCAPR011.php?report=REGCAPR003">Contas Vencidas</a>';
-  echo '            <a href="REGCAPR011.php?report=REGCAPR001">Contas a Pagar</a>';
+  echo '            <a href="REGCAPR011.php?report=REGCAPR001">Contas Pagas</a>';
   echo '          </li>';
   echo '        </ul>';
   echo '      </li>'; 
