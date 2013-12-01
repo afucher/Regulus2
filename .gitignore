@@ -16,6 +16,9 @@ local.properties
 .settings/
 .loadpath
 
+backup/
+db.php
+
 # External tool builders
 .externalToolBuilders/
 
