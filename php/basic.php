@@ -170,6 +170,7 @@ echo '        <ul>';
 echo '          <li>';
 if($access->admin){
   echo '            <a href="brwUser.php">Usuários</a>';
+  echo '            <a href="configSist.php">Backup</a>';
 }
 echo '            <a href="./HelpOnLine/manual.pdf" target="_blank">Help</a>';
 echo '            <a href="logout.php">Logout</a>';
